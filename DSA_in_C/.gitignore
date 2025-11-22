@@ -1,0 +1,5 @@
+#Ignore (windows) executable files
+.exe
+
+#Ignore .vscode directly
+/.vscode
