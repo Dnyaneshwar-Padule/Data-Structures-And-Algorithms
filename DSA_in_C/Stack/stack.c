@@ -2,14 +2,20 @@
 #include<stdlib.h>
 
 struct stack{
-    int data;
-    struct stack *next;
+    struct node *top;
 };
 
+struct node{
+    int data;
+    struct node* next;
+};
+
+typedef struct node node;
 typedef struct stack MyStack;
 
 MyStack* myStackCreate() {
-    return NULL;
+    MyStack *stack = (MyStack*)calloc(1, sizeof(MyStack));
+    return stack;
 }
 
 /*
@@ -18,17 +24,17 @@ MyStack* myStackCreate() {
     m -> operating on the (can change the address in m), to another node
 */
 void myStackPush(MyStack* obj, int x) {
-    MyStack *new_node = (MyStack*)malloc(sizeof(MyStack));
+    node *new_node = (node*)malloc(sizeof(node));
     new_node->data = x;
-    new_node->next = obj;
-    obj = new_node;
+    new_node->next = obj->top;
+    obj->top = new_node;
 }
 
 int myStackPop(MyStack* obj) {
     if( ! obj) return 0;
-    int data = obj->data;
-    MyStack *top = obj;
-    obj = top->next;
+    int data = obj->top->data;
+    node *top = obj->top;
+    obj->top = top->next;
     free(top);
     return data;
 }
@@ -36,7 +42,7 @@ int myStackPop(MyStack* obj) {
 int myStackTop(MyStack* obj) {
     if( ! obj )
         return 0;
-    return obj->data;
+    return obj->top->data;
 }
 
 int myStackEmpty(MyStack* obj) {
@@ -44,10 +50,10 @@ int myStackEmpty(MyStack* obj) {
 }
 
 void myStackFree(MyStack* obj) {
-    MyStack *current = obj;
-    while( obj ){
-        current = obj;
-        obj = obj->next;
+    node *current = obj->top;
+    while( obj->top ){
+        current = obj->top;
+        obj->top = obj->top->next;
         free(current);
     }
 }
