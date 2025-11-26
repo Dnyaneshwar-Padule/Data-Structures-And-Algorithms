@@ -15,9 +15,22 @@ public class App {
 		list.insert(4, 4);
 		list.insert(5, 5);
 		
+		System.out.println("Index --> Value");
+		
 		for(int  i = 0; i < list.size(); i++) {
-			System.out.println(i +" ---> " + list.get(i));
+			System.out.println(i +"    ---> " + list.get(i));
 		}
+		
+		System.out.println("------------");
+		
+		list.remove(0);
+		list.remove(1);
+		list.remove(2);
+		
+		for(int  i = 0; i < list.size(); i++) {
+			System.out.println(i +"    ---> " + list.get(i));
+		}
+		
 	}
 	
 }

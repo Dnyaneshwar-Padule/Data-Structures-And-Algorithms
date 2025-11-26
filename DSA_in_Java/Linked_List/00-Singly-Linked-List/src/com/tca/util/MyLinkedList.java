@@ -10,10 +10,11 @@ public class MyLinkedList<E extends Comparable<E>> {
 		length = 0;
 	}
 	
+	/*
 	public MyLinkedList(E... values) {
 		
 	}
-	
+	*/
 	public synchronized int size() {
 		return length;
 	}
@@ -124,4 +125,46 @@ public class MyLinkedList<E extends Comparable<E>> {
 
 		return current.getData();
 	}
+	
+	public synchronized int getPosition(E data) {
+		ListNode<E> traverser = head;
+		int pos = 0;
+		while(traverser != null) {
+			if(traverser.getData().compareTo(data) == 0)
+				return pos;
+			++pos;
+			traverser = traverser.getNext();
+		}
+		return -1;
+	}
+	
+	
+	public synchronized void removeMatched(E data) {
+		if(head == null)
+			return;
+		
+		if(data.compareTo(head.getData()) == 0) {
+			head = head.getNext();
+			return;
+		}
+		
+		ListNode<E> current = head, next = null;
+		
+		while( (next = current.getNext()) != null ) {
+			if(next.getData().compareTo(data) == 0) {
+				current.setNext(next.getNext());
+				length--;
+				return;
+			}
+			current = next;
+		}
+		
+	}
+	
+	public synchronized void clearList() {
+		head = null;
+		length = 0;
+	}
+
+	
 }
