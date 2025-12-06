@@ -1,7 +1,5 @@
 package com.tca.util;
 
-import java.util.function.DoubleBinaryOperator;
-
 public class Stack {
 
 	private int top;
