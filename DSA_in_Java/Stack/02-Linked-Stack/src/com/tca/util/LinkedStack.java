@@ -35,6 +35,7 @@ public class LinkedStack<T> {
 	public void push(T data) {
 		ListNode newNode = new ListNode(data, top);
 		top = newNode;
+		size++;
 	}
 	
 	public T pop()throws Exception {
@@ -42,6 +43,7 @@ public class LinkedStack<T> {
 			throw new Exception("Stack is empty.");
 		T data = top.data;
 		top = top.next;
+		size--;
 		return data;
 	}
 	

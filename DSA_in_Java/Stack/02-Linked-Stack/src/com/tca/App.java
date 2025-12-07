@@ -14,7 +14,7 @@ public class App {
 			System.out.println("Peek : " + s.top());
 			
 			for(int i = 1; i <= 30; ++i) {
-				System.out.println("Pop : " + s.pop());
+				System.out.println("Pop : " + s.pop() + " size : " + s.size());
 			}
 		}
 		catch(Exception e) {
