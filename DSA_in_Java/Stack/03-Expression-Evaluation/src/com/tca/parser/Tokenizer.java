@@ -9,6 +9,7 @@ import com.tca.token.OperatorToken.Associativity;
 import com.tca.token.ParenthesisToken;
 import com.tca.token.ParenthesisToken.Type;
 import com.tca.token.Token;
+import com.tca.token.VariableToken;
 
 public class Tokenizer {
 
@@ -35,7 +36,11 @@ public class Tokenizer {
 						new ParenthesisToken(Type.LEFT) :
 						new ParenthesisToken(Type.RIGHT));
 			}
+			else if (Character.isLetter(ch)){
+				tokens.add( new VariableToken(String.valueOf(ch)) );
+			}
 			else {
+				
 				throw new IllegalArgumentException("Invalid character : " + ch);
 			}
 		}
@@ -44,9 +49,10 @@ public class Tokenizer {
 	}
 	
 	private static OperatorToken operatorFor(char ch) {
+		//high number -> high priority
 		return switch(ch) {
 		case '+', '-' ->
-			 new OperatorToken(ch, 1, Associativity.RIGHT);
+			 new OperatorToken(ch, 1, Associativity.LEFT);
 		case '*', '/', '%' ->
 			 new OperatorToken(ch, 2, Associativity.LEFT);
 		default ->

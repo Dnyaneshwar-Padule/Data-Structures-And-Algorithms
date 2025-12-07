@@ -25,9 +25,11 @@ public class PrefixValidator implements ExpressionValidator {
 				need--;
 			else if(t instanceof OperatorToken)
 				need++;
+			else
+				throw new ValidationException("Invalid token in expression.");				
 			
 			if(need < 0)
-				throw new ValidationException("Invalid token in expression.");
+				throw new ValidationException("Incomplete prefix expression");
 		}
 		
 		if(need != 0) {

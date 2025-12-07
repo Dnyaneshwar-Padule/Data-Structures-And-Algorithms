@@ -27,6 +27,10 @@ public class PostfixValidator implements ExpressionValidator {
 				}
 				operands++;
 			}
+			else {
+                throw new ValidationException("Invalid token in postfix expression");
+            }
+
 		}
 
 		if(operands != 1)
