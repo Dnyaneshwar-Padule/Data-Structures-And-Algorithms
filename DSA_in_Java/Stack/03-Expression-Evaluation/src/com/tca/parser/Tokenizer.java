@@ -16,17 +16,29 @@ public class Tokenizer {
 	public static List<Token> tokenize(String expression){
 		List<Token> tokens = new ArrayList<>();
 		String operators = "+-*/%";
+		double num = 0;
 		
 		if(expression == null)
 			return tokens;
 		
-		for( char ch : expression.toCharArray()) {
+		for( int i = 0; i < expression.length(); i++) {
+			char ch = expression.charAt(i);
 			
 			if(Character.isWhitespace(ch))
 				continue;
 			
 			if(Character.isDigit(ch)) {
-				tokens.add(new NumberToken( ch - '0' ));
+				int j;
+				num = 0;
+				for(j = i; j < expression.length(); j++) {
+					ch = expression.charAt(j);
+					if( Character.isDigit(ch) )
+						num = (num * 10) + ch - '0';
+					else 
+						break;
+				}
+				tokens.add(new NumberToken( num ));
+				i = j -1;
 			}
 			else if(operators.indexOf(ch) >= 0) {
 				tokens.add(operatorFor(ch));

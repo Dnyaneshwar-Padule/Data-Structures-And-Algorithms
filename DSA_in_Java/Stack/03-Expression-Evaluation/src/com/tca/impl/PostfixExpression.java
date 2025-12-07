@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tca.expression.api.Expression;
+import com.tca.expression.eval.EvaluationException;
 import com.tca.token.NumberToken;
 import com.tca.token.OperatorToken;
 import com.tca.token.ParenthesisToken;
@@ -97,9 +98,36 @@ public class PostfixExpression implements Expression {
 	}
 
 	@Override
-	public double evaluate(Map<String, Double> vars) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double evaluate(Map<String, Double> vars) throws EvaluationException {
+		Stack<Double> stack = new Stack<>();
+		try {
+			for(Token token : tokens) {
+				if(token instanceof NumberToken) {
+					stack.push( ( (NumberToken)token).value());
+				}
+				else if(token instanceof VariableToken) {
+					Double val = vars.get( ( (VariableToken)token).name() );
+					if(val == null)
+						throw new EvaluationException("Value not given for variable " + ( (VariableToken)token).name());
+					stack.push(val);
+				}
+				 else if (token instanceof OperatorToken op) {
+					double b = stack.pop();
+	                double a = stack.pop();
+	                stack.push(op.apply(a, b)); 
+				}
+			}
+			
+			 if (stack.size() != 1)
+		            throw new EvaluationException("Invalid postfix evaluation");
+			
+			 return stack.pop();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			throw new EvaluationException("Could not evaluate expression.");
+		}
+		
 	}
 
 	@Override
@@ -114,6 +142,30 @@ public class PostfixExpression implements Expression {
 			}
 			else if(t instanceof VariableToken) {
 				expr += ((VariableToken) t).name();
+			}
+		}
+		
+		return expr;
+	}
+	
+	public String toString(Map<String, Double> vars) {
+		String expr = "Postfix expression: ";
+		for(Token t: tokens) {
+			if(t instanceof NumberToken) {
+				expr += ( (NumberToken) t).value();
+			}
+			else if(t instanceof OperatorToken) {
+				expr += ((OperatorToken) t).symbol();
+			}
+			else if(t instanceof VariableToken) {
+				Double val = vars.get(((VariableToken) t).name());
+				if(val == null)
+					expr += ((VariableToken) t).name();
+				else
+					expr += val;
+			}
+			else {
+				expr += ((ParenthesisToken)t).isLeft() ? "(" : ")";
 			}
 		}
 		

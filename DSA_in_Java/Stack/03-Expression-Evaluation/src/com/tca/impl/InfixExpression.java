@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tca.expression.api.Expression;
+import com.tca.expression.eval.EvaluationException;
 import com.tca.parser.ValidationException;
 import com.tca.token.NumberToken;
 import com.tca.token.OperatorToken;
@@ -100,9 +101,8 @@ public class InfixExpression implements Expression {
 	}
 
 	@Override
-	public double evaluate(Map<String, Double> vars) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double evaluate(Map<String, Double> vars) throws EvaluationException {
+		return toPostfix().evaluate(vars);
 	}
 	
 	public String toString() {
@@ -116,6 +116,30 @@ public class InfixExpression implements Expression {
 			}
 			else if(t instanceof VariableToken) {
 				expr += ((VariableToken) t).name();
+			}
+			else {
+				expr += ((ParenthesisToken)t).isLeft() ? "(" : ")";
+			}
+		}
+		
+		return expr;
+	}
+	
+	public String toString(Map<String, Double> vars) {
+		String expr = "Infix expression: ";
+		for(Token t: tokens) {
+			if(t instanceof NumberToken) {
+				expr += ( (NumberToken) t).value();
+			}
+			else if(t instanceof OperatorToken) {
+				expr += ((OperatorToken) t).symbol();
+			}
+			else if(t instanceof VariableToken) {
+				Double val = vars.get(((VariableToken) t).name());
+				if(val == null)
+					expr += ((VariableToken) t).name();
+				else
+					expr += val;
 			}
 			else {
 				expr += ((ParenthesisToken)t).isLeft() ? "(" : ")";
