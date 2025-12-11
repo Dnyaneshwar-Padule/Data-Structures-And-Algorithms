@@ -25,12 +25,17 @@ public class App {
 				adjacencyMatrix.addEdge(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]));
 			}
 			
-			System.out.println("Degree of vertices");
+			System.out.println("\nDegree of vertices");
 			for(int i = 0; i < V; ++i) {
 				System.out.println("Degree of " + i + ":" + adjacencyMatrix.degreeOf(i));
 			}
 			
-			System.out.println(adjacencyMatrix);
+			System.out.println("\nIncidents\n");
+			for(int i = 0; i < V; ++i) {
+				adjacencyMatrix.printIncidentsOf(i);
+			}
+			
+			System.out.println("\n" + adjacencyMatrix);
 			
 		}
 		catch(Exception e) {

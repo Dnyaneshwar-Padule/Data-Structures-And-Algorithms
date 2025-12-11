@@ -2,7 +2,7 @@ package com.tca;
 
 public class UndirectedAdjacencyMatrix {
 
-	private int adjacencyMatrix[][];
+	private boolean adjacencyMatrix[][];
 	private int V;
 	private int E;
 	private int edgeCnt;
@@ -17,7 +17,7 @@ public class UndirectedAdjacencyMatrix {
 		this.E = E;
 		this.V = V;
 		edgeCnt = 0;
-		adjacencyMatrix = new int[V][V];
+		adjacencyMatrix = new boolean[V][V];
 	}
 	
 	public void addEdge(int u, int v) {
@@ -30,8 +30,8 @@ public class UndirectedAdjacencyMatrix {
 		if(edgeCnt == E)
 			throw new IllegalArgumentException("Too many edges.");
 		
-		adjacencyMatrix[u][v] = 1;  // u ---> v
-		adjacencyMatrix[v][u] = 1;  // v ---> u
+		adjacencyMatrix[u][v] = true;  // u ---> v
+		adjacencyMatrix[v][u] = true;  // v ---> u
 		edgeCnt++;
 	}
 	
@@ -41,9 +41,20 @@ public class UndirectedAdjacencyMatrix {
 
 		int degree = 0;
 		for(int i = 0; i < V; ++i )
-			if(adjacencyMatrix[v][i] == 1)
+			if(adjacencyMatrix[v][i])
 				degree++;
 		return degree;
+	}
+	
+	public void printIncidentsOf(int v) {
+		if(v < 0 || v >= V)
+			throw new IllegalArgumentException("Vertex:" +  v + " is out of array bounds.");
+		
+		System.out.println("Incidents of " + v);
+		for(int i = 0; i < V; ++i)
+			if(adjacencyMatrix[v][i])
+				System.out.println("\t{" + v + ":" + i + "}");
+		
 	}
 	
 	public String toString() {
@@ -62,7 +73,7 @@ public class UndirectedAdjacencyMatrix {
 		for(int i = 0; i < V; ++i) {
 			s.append( String.format("%2d |",i) );
 			for(int j = 0; j < V; ++j) 
-				s.append( String.format("%3d", adjacencyMatrix[i][j])  );
+				s.append( String.format("%3d", adjacencyMatrix[i][j] ? 1 : 0) );
 			s.append("\n");
 		}
 		s.append("\n");	
