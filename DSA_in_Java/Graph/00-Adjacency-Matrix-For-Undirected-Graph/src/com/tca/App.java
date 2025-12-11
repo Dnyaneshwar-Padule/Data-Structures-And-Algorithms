@@ -30,6 +30,8 @@ public class App {
 				System.out.println("Degree of " + i + ":" + adjacencyMatrix.degreeOf(i));
 			}
 			
+			System.out.println(adjacencyMatrix);
+			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
