@@ -60,20 +60,24 @@ public class UndirectedAdjacencyMatrix {
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 		
-		s.append("Undirected Adjacency Matrix:\n   ");
+		s.append("\033[32mUndirected Adjacency Matrix:\033[0m\033[33m\n   ");
 		
 		for(int i = 0; i < V; ++i)
 			s.append( String.format("%3d", i) );
-		s.append("\n   ");
+		s.append("\n    ");
 		
 		for(int i = 0; i < V; ++i)
 			s.append("---");
-		s.append("\n");
+		s.append("\n\033[0m");
 		
 		for(int i = 0; i < V; ++i) {
-			s.append( String.format("%2d |",i) );
-			for(int j = 0; j < V; ++j) 
-				s.append( String.format("%3d", adjacencyMatrix[i][j] ? 1 : 0) );
+			s.append( "\033[33m" + String.format("%2d |",i) + "\033[0m" );
+			for(int j = 0; j < V; ++j) {
+				if(adjacencyMatrix[i][j]) 
+					s.append("\033[36m" +  String.format("%3d", 1)  + "\033[0m");
+				else
+					s.append("\033[35m" +  String.format("%3d", 0)  + "\033[0m");
+			}
 			s.append("\n");
 		}
 		s.append("\n");	
