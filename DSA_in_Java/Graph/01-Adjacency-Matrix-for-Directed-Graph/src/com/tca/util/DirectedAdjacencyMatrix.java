@@ -25,7 +25,11 @@ public class DirectedAdjacencyMatrix {
 		if(u < 0 || u >= V || v < 0 || v >= V)
 			throw new IllegalArgumentException("Vertex is out of array bounds.");
 		
+		if(edgeCount == E)
+				throw new IllegalArgumentException("Too many edges.");
+		
 		adjacencyMatrix[u][v] = true;
+		edgeCount++;
 	}
 	
 	public int inDegreeOf(int v) {
