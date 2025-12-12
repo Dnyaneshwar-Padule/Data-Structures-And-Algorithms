@@ -7,7 +7,7 @@ public class App {
 		
 		try {
 
-			AdjacencyList adjacencyList = new AdjacencyList(4,5);
+			AdjacencyList adjacencyList = new AdjacencyList(5,15);
 			System.out.println(adjacencyList);
 			
 			System.out.println("Degree of vertices");
