@@ -39,8 +39,10 @@ public class App {
 			
 			System.out.println("\n" + adjacencyMatrix);
 			
+			System.out.println("DFS");
 			adjacencyMatrix.DFS();
-			
+			System.out.println("BFS");
+			adjacencyMatrix.BFS();
 			
 		}
 		catch(Exception e) {

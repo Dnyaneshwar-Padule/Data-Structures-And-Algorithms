@@ -1,6 +1,7 @@
 package com.tca.util;
 
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class UndirectedAdjacencyMatrix {
@@ -58,6 +59,30 @@ public class UndirectedAdjacencyMatrix {
 			if(adjacencyMatrix[v][i])
 				System.out.println("\t{" + v + ":" + i + "}");
 		
+	}
+	
+	
+	public void BFS() {
+		Queue<Integer> queue = new LinkedList<>();
+		boolean visited[] = new boolean[V];
+		queue.offer(0);
+		
+		while(! queue.isEmpty()) {
+			int nextNode = queue.poll();
+			
+			if(!visited[nextNode]) {
+				visited[nextNode] = true;
+				System.out.println("Visited : " + nextNode);
+			
+				for(int i = 0; i < V; ++i)
+					if(adjacencyMatrix[nextNode][i] && !visited[i])
+						queue.offer(i);
+			}
+			else {
+				System.out.println("Cycle found at : " + nextNode);
+			}
+		}
+	
 	}
 	
 	
