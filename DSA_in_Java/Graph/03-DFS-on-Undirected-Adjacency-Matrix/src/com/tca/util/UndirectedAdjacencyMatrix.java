@@ -85,7 +85,7 @@ public class UndirectedAdjacencyMatrix {
 			}
 			else {
 				// if the next node is already visited, i.e. there is a cycle
-				System.out.println("Found a cycle at " + nextNode);
+				System.out.println("Found a cycle at " + nextNode);  
 			}
 		}
 		
