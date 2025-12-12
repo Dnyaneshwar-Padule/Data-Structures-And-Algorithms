@@ -1,5 +1,7 @@
 package com.tca.util;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class DirectedAdjacencyMatrix {
@@ -54,6 +56,26 @@ public class DirectedAdjacencyMatrix {
 			if(adjacencyMatrix[v][i])
 				cnt++;
 		return cnt;
+	}
+	
+	
+	public void BFS() {
+		Queue<Integer> queue = new LinkedList<>();
+		boolean visited[] = new boolean[V];
+		queue.offer(0);
+		
+		while(! queue.isEmpty()) {
+			int nextNode = queue.poll();
+			
+			if(!visited[nextNode]) {
+				visited[nextNode] = true;
+				System.out.println("Visited : " + nextNode);
+			
+				for(int i = 0; i < V; ++i)
+					if(adjacencyMatrix[nextNode][i] && !visited[i])
+						queue.offer(i);
+			}
+		}
 	}
 	
 	public void DFS() {
