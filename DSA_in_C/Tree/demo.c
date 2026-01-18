@@ -103,6 +103,7 @@ int main()
     insert(2);
     insert(5);
     insert(4);
+    insert(6);
     insert(7); 
 
     display_inorder(root);
