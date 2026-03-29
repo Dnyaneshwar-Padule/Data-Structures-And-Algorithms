@@ -11,7 +11,24 @@ typedef struct list_node list_node;
 
 list_node *head;
 
-void insert(int data){
+
+void insert_at_beginning(int data){
+    list_node *node = (list_node*)malloc(sizeof(list_node));
+    node->data = data;
+    node->ptr_diff = 0;
+
+    if(!head){
+        head = node;
+    }
+    else{
+        list_node *next = (list_node*)(head->ptr_diff ^ 0); 
+        node->ptr_diff = 0 ^ (long)head;
+        head->ptr_diff = (long)node ^ (long)next;
+        head = node;
+    }
+}
+
+void insert_at_end(int data){
     long prev = 0;
     long next = 0;
     list_node *cur;
@@ -44,6 +61,40 @@ void insert(int data){
 
 }
 
+void insert_at(int data, int pos){
+    if(pos < 0) return;
+
+    if(pos == 0)
+        insert_at_beginning(data);
+
+    long prev = 0, next = 0;
+    list_node* cur = head;
+
+    list_node* node = (list_node*)malloc((sizeof(list_node)));
+    node->data = data;
+    node->ptr_diff = 0;
+
+    for(int i = 1; i < pos; i++){
+        next = prev ^ cur->ptr_diff;
+        
+        if(! next)
+            break;
+
+        prev = (long)cur;
+        cur = (list_node*) next;
+    }
+
+    next = prev ^ cur->ptr_diff;
+    node->ptr_diff = next ^ (long) cur;
+    cur->ptr_diff = prev ^ (long) node;
+
+    prev = (long) cur;
+    cur = (list_node*)next;
+    next = cur->ptr_diff ^ prev;
+
+    cur->ptr_diff = next ^ (long) node;
+
+}
 
 void display(){
     if (head == NULL)
@@ -66,12 +117,20 @@ void display(){
 int main(){
     head = NULL;
 
-    insert(1);
-    insert(2);
-    insert(3);
-    insert(4);
-    insert(5);
-    insert(6);
+    insert_at_end(1);
+    insert_at_end(2);
+    insert_at_end(3);
+    insert_at_end(4);
+    insert_at_end(5);
+    insert_at_end(6);
+
+    insert_at_beginning(11);
+    insert_at_beginning(22);
+    insert_at_beginning(33);
+
+    insert_at(101,1);
+    insert_at(102,2);
+    insert_at(103,3);
 
     display();
 }
