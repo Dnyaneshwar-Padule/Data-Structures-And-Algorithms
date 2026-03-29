@@ -41,11 +41,6 @@ void insert_at_end(int data){
         new_node->ptr_diff = 0;
         return;
     }
-    else if(! head->ptr_diff){
-        head->ptr_diff = (long) new_node;
-        new_node->ptr_diff = (long) head;
-        return;
-    }
 
     cur = head;
     next = cur->ptr_diff ^ prev;
@@ -108,6 +103,11 @@ void delete_first(){
     new_head->ptr_diff = next;
     free(head);
     head = new_head;
+}
+
+void delete_last(){
+    if (head == NULL)
+        return;
 }
 
 void display(){
