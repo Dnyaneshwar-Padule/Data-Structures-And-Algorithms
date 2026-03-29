@@ -21,8 +21,8 @@ void insert_at_beginning(int data){
         head = node;
     }
     else{
-        list_node *next = (list_node*)(head->ptr_diff ^ 0); 
-        node->ptr_diff = 0 ^ (long)head;
+        list_node *next = (list_node*)(head->ptr_diff); 
+        node->ptr_diff = (long)head;
         head->ptr_diff = (long)node ^ (long)next;
         head = node;
     }
@@ -38,12 +38,12 @@ void insert_at_end(int data){
     
     if(head == NULL){
         head = new_node;
-        new_node->ptr_diff = prev ^ next;
+        new_node->ptr_diff = 0;
         return;
     }
     else if(! head->ptr_diff){
-        head->ptr_diff = prev ^ (long) new_node;
-        new_node->ptr_diff = next ^ (long) head;
+        head->ptr_diff = (long) new_node;
+        new_node->ptr_diff = (long) head;
         return;
     }
 
@@ -64,8 +64,10 @@ void insert_at_end(int data){
 void insert_at(int data, int pos){
     if(pos < 0) return;
 
-    if(pos == 0)
+    if(pos == 0){
         insert_at_beginning(data);
+        return;
+    }
 
     long prev = 0, next = 0;
     list_node* cur = head;
@@ -90,10 +92,22 @@ void insert_at(int data, int pos){
 
     prev = (long) cur;
     cur = (list_node*)next;
-    next = cur->ptr_diff ^ prev;
 
-    cur->ptr_diff = next ^ (long) node;
+    if(cur){
+        next = cur->ptr_diff ^ prev;
+        cur->ptr_diff = next ^ (long) node;
+    }
+}
 
+void delete_first(){
+    if(! head)
+        return;
+
+    list_node *new_head = (list_node*)head->ptr_diff;
+    long next = new_head->ptr_diff ^ (long)head;  
+    new_head->ptr_diff = next;
+    free(head);
+    head = new_head;
 }
 
 void display(){
@@ -128,9 +142,22 @@ int main(){
     insert_at_beginning(22);
     insert_at_beginning(33);
 
-    insert_at(101,1);
+    insert_at(101,0);
     insert_at(102,2);
     insert_at(103,3);
+    insert_at(112,12);
 
+    display();
+
+    delete_first();  // 101 deleted
+    display();
+    
+    delete_first(); // 33 deleted
+    display();
+
+    delete_first();
+    display();
+
+    delete_first();
     display();
 }
