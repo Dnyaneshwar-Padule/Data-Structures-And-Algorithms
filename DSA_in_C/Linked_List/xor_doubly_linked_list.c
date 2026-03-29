@@ -108,6 +108,25 @@ void delete_first(){
 void delete_last(){
     if (head == NULL)
         return;
+
+    if(head->ptr_diff == 0){
+        delete_first();
+        return;
+    }
+
+    long prev = 0;
+    long next = 0;
+    list_node *cur = head;
+    next = cur->ptr_diff;
+ 
+    while(((list_node*)next)->ptr_diff != (long)cur ) {
+        prev = (long)cur;
+        cur = (list_node*) next;
+        next = cur->ptr_diff ^ prev;
+    }
+
+    cur->ptr_diff = prev;
+    free((list_node*)next);
 }
 
 void display(){
@@ -161,4 +180,14 @@ int main(){
     delete_first();
     display();
 
+    delete_last();
+    display();  
+
+    delete_last();
+    display();  
+    
+    delete_last();
+    display();  
+    
+    return 0;
 }
