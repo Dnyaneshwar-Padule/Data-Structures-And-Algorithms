@@ -129,6 +129,40 @@ void delete_last(){
     free((list_node*)next);
 }
 
+void delete_at(int pos){
+    if (pos < 0 || ! head)
+        return;
+
+    if (pos == 0){
+        delete_first();
+        return;
+    }
+
+    long prev = 0, temp = 0;
+    list_node* cur = head;
+    long next = cur->ptr_diff;
+
+    for(int i = 0; i < pos; i++){
+        prev = (long) cur;
+        cur = (list_node*)next;
+
+        if(! cur)
+            return;
+
+        next = cur->ptr_diff ^ prev;
+    }
+
+    temp = ((list_node*)prev)->ptr_diff ^ (long) cur;
+    ((list_node*)prev)->ptr_diff = temp ^ next;
+
+    if(next){
+        temp = ((list_node*)next)->ptr_diff ^ (long)cur;
+        ((list_node*)next)->ptr_diff = temp ^ prev;
+    }
+
+    free(cur);
+}
+
 void display(){
     if (head == NULL)
         return;
@@ -137,7 +171,7 @@ void display(){
     list_node *cur = head;
 
     while (cur){
-        printf("%d -> ", cur->data);
+        printf("%d ⟶ ", cur->data);
 
         next = cur->ptr_diff ^ prev;
         prev = (long)cur;
@@ -189,5 +223,17 @@ int main(){
     delete_last();
     display();  
     
+    delete_at(0);
+    display();
+
+    delete_at(3);
+    display();
+
+    delete_at(3);
+    display();
+
+    delete_at(1);
+    display();
+
     return 0;
 }
