@@ -160,4 +160,9 @@ int main(){
 
     delete_first();
     display();
+
 }
+
+
+// delete last
+// delete mid
