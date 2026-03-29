@@ -202,6 +202,26 @@ void display(){
     printf("NULL\n");
 }
 
+void free_all(){
+    if(!head)
+        return;
+
+    long prev = 0;
+    list_node *cur = head;
+    long next = cur->ptr_diff;
+
+    while (next){
+        prev = (long)cur;
+        cur = (list_node*)next;
+        next = cur->ptr_diff ^ prev;
+        free(cur);
+    }
+
+    free(head);
+    head = NULL;
+    
+}
+
 int main(){
     head = NULL;
 
@@ -259,5 +279,8 @@ int main(){
     printf("0 ⟶ %d\n", get_at(0)->data);
 
     printf("1 ⟶ %d\n", get_at(1)->data);
+
+    free_all();
+    display();
     return 0;
 }
