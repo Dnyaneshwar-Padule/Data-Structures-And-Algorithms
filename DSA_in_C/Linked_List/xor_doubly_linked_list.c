@@ -162,7 +162,3 @@ int main(){
     display();
 
 }
-
-
-// delete last
-// delete mid
