@@ -163,6 +163,27 @@ void delete_at(int pos){
     free(cur);
 }
 
+list_node* get_at(int pos){
+    if(pos < 0 || ! head)
+        return NULL;
+
+    int i = 0;
+    long prev = 0;
+    list_node *cur = head;
+    long next = cur->ptr_diff;
+
+    for(int i = 0; i < pos; ++i){
+        prev = (long)cur;
+        cur = (list_node*)next;
+        if(!cur)
+            return NULL;
+
+        next = cur->ptr_diff ^ prev;
+    }
+
+    return cur;
+}
+
 void display(){
     if (head == NULL)
         return;
@@ -235,5 +256,8 @@ int main(){
     delete_at(1);
     display();
 
+    printf("0 ⟶ %d\n", get_at(0)->data);
+
+    printf("1 ⟶ %d\n", get_at(1)->data);
     return 0;
 }
