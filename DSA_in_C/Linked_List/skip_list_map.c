@@ -62,23 +62,22 @@ void add(int key, int val){
     list_node *cur = list_map->head, *last = NULL;
 
     while(cur){
-        
         // the next of current is null, or the key next to current is greater than the key to add, we can insert the node here, if the level is same or greater
         if(! cur->next || (cur->next->key > key)){
-            
             if(level >= cur->level){
                 list_node *new_node = NEW_LISTNODE;
                 new_node->key = key;
                 new_node->value = val;
-                new_node->next = cur->next;
-
-                if(last)
-                    last->down = new_node;
+                new_node->level = cur->level;
                 
+                if(last)
+                last->down = new_node;
+                
+                new_node->next = cur->next;
                 cur->next = new_node;
                 last = new_node;
-                cur = cur->down;
             }
+            cur = cur->down;
         }
         else if(cur->next->key == key){
             if(last)
@@ -179,7 +178,7 @@ void display(){
         down = cur->down;
         printf("Level-%2d:", cur->level);
         while (cur){
-            printf("[%2d:%2d] ⟶ ", cur->key, cur->value);
+            printf("[%2d:%2d:%2d(%2d)] ⟶ ", cur->key, cur->value, (cur->down) ? cur->down->key : 0, (cur->down) ? cur->down->level : 0 );
             cur = cur->next;
         }
         
@@ -226,6 +225,8 @@ int main(){
     add(8,1);
     
     display();
+
+    printf("=====================================================================\n");
 
     add(1,1);
     add(2,1);
