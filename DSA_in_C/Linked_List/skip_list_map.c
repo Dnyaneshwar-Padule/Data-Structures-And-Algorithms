@@ -178,7 +178,8 @@ void display(){
         down = cur->down;
         printf("Level-%2d:", cur->level);
         while (cur){
-            printf("[%2d:%2d:%2d(%2d)] ⟶ ", cur->key, cur->value, (cur->down) ? cur->down->key : 0, (cur->down) ? cur->down->level : 0 );
+            // printf("[%2d:%2d:%2d(%2d)] ⟶ ", cur->key, cur->value, (cur->down) ? cur->down->key : 0, (cur->down) ? cur->down->level : 0 );
+            printf("[%2d:%2d] ⟶ ", cur->key, cur->value);
             cur = cur->next;
         }
         
@@ -236,6 +237,52 @@ int main(){
     add(9,1);
     
     display();
+    printf("=====================================================================\n");
+
+
+    add(19,1);
+    add(19,1);
+    add(29,1);
+    add(39,1);
+    add(49,1);
+    add(59,1);
+    add(69,1);
+    add(79,1);
+    add(89,1);
+    add(89,1);
+    add(79,1);
+    add(69,1);
+    add(99,1);
+    add(98,1);
+    add(97,1);
+    add(96,1);
+    add(96,1);
+    add(95,1);
+    add(94,1);
+
+
+    display();
+    printf("=====================================================================\n");
+
+
+    add(1,2);
+    add(2,2);
+    add(3,2);
+    add(4,2);
+    
+    
+    display();
+    printf("=====================================================================\n");
+    
+    
+        delete(1);
+        delete(2);
+        delete(3);
+        delete(4);
+
+        display();
+    printf("=====================================================================\n");
+    
 
     clear();
     return 0;
