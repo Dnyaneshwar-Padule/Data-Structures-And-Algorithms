@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<limits.h>
 
 #define NEWNODE (struct list_node*)malloc(sizeof(struct list_node))
 
@@ -141,9 +142,99 @@ void delete_from_node(list_node* node, int index){
     if(node->previous && (node->elementCount + node->previous->elementCount) <= capacity)
         merge_with_next_node(node->previous);
 
-    size--;
 }
 
+
+void add(int element){
+    if(!last_node){
+        init(capacity);
+    }
+
+    add_to_node(last_node, last_node->elementCount, element);
+}
+
+int get(int index){
+    if(index < 0 || index >= size)
+        return INT_MIN;
+    
+    list_node *cur = first_node;
+    int p = 0;
+
+    if(size - index > index){
+        while(p <= (index - cur->elementCount)){
+            p += cur->elementCount;
+            cur = cur->next;
+        }
+    }
+    else{
+        cur = last_node;
+        p = size;
+        while((p -= cur->elementCount) > index){
+            cur = cur->previous;
+        }
+    }
+
+    return cur->elements[index - p];
+
+}
+
+int add_to(int element, int index){
+    if(index < 0 || index >= size)
+        return 0;
+    
+    list_node *cur = NULL;
+    int p = 0;
+
+    if(size - index > index){
+        cur = first_node;
+        
+        while(p <= (index - cur->elementCount)){
+            p += cur->elementCount;
+            cur = cur->next;
+        }
+    }
+    else{
+        cur = last_node;
+        p = size;
+
+        while((p -= cur->elementCount) > index){
+            cur = cur->previous;
+        }
+    }
+
+    add_to_node(cur, p - index, element);
+    size++;
+}
+
+int delete(int index){
+    if(index < 0 || index >= size)
+        return INT_MIN;
+
+        list_node *cur = NULL;
+    int p = 0;
+
+    if(size - index > index){
+        cur = first_node;
+        
+        while(p <= (index - cur->elementCount)){
+            p += cur->elementCount;
+            cur = cur->next;
+        }
+    }
+    else{
+        cur = last_node;
+        p = size;
+
+        while((p -= cur->elementCount) > index){
+            cur = cur->previous;
+        }
+    }
+
+    int ele = cur->elements[index - p];
+    delete_from_node(cur, index - p);
+    size--;
+    return ele;
+}
 
 int main(){
 
