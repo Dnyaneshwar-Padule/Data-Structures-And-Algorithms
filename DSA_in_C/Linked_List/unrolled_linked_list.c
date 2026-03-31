@@ -37,8 +37,8 @@ void init(int cap){
     capacity = cap;
     first_node = NEWNODE;
 
-    last_node->next = NULL;
-    last_node->previous = NULL;
+    first_node->next = NULL;
+    first_node->previous = NULL;
     first_node->elementCount = 0;
     first_node->elements = alloc_arr(capacity);
 
@@ -202,7 +202,7 @@ int add_to(int element, int index){
         }
     }
 
-    add_to_node(cur, p - index, element);
+    add_to_node(cur, index - p, element);
     size++;
 }
 
@@ -236,7 +236,58 @@ int delete(int index){
     return ele;
 }
 
+void display(){
+    if(!first_node)
+        return;
+
+    list_node *cur = first_node;
+
+    while (cur){
+        printf("[");
+        for(int i = 0; i < cur->elementCount-1; i++){
+            printf("%d ⟶ ", cur->elements[i]);
+        }
+        printf("%d] ⟶ ", cur->elements[cur->elementCount - 1]);
+        cur = cur->next;
+    }
+
+    printf("NULL\n");
+}
+
 int main(){
 
+    init(6);
 
+    add(10);
+    add(20);
+    add(30);
+    add(40);
+    add(50);
+    add(60);
+
+
+
+    display();
+
+
+
+    add(70);
+    add(80);
+    add(90);
+    add(140);
+    add(150);
+    add(160);
+
+    display();
+
+
+    delete(3);
+    display();
+
+    add_to(45,4);
+    display();
+
+    clear();
+
+    return 0;
 }
