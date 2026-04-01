@@ -464,6 +464,37 @@ int get_the_nth_node_from_end(int n){
     return INT_MIN;
 }
 
+int remove_nth_node_from_the_end(int n){
+    if(n < 1)
+        return INT_MIN;
+
+    struct node* t = head;
+    struct node* p = head;
+    int val = INT_MIN;
+
+    for (int i = 0; i <= n && t; i++){
+        t = t->next;
+    }
+
+    while (t){
+        p = p->next;
+        t = t->next;
+    }
+
+    if(head == p){
+        head = head->next;
+        val = p->data;
+        free(p);
+        return val;
+    }
+    
+    t = p->next;
+    p->next = t->next;
+    val = t->data;
+    free(t);
+    return val;
+}
+
 int main()
 {
     init();
@@ -488,6 +519,16 @@ int main()
     printf("3 : %d\n", get_the_nth_node_from_end(3));
     printf("4 : %d\n", get_the_nth_node_from_end(4));
     printf("5 : %d\n", get_the_nth_node_from_end(5));
+
+    printf("=========================================\n");
+
+    printf("Remove 1: %d\n", remove_nth_node_from_the_end(1));
+    display(head);
+    printf("Remove 2: %d\n", remove_nth_node_from_the_end(2));
+    display(head);
+    printf("Remove 4: %d\n", remove_nth_node_from_the_end(4));
+    display(head);
+
     
     free_all(head);
     return 0;
