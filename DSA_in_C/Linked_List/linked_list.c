@@ -495,41 +495,156 @@ int remove_nth_node_from_the_end(int n){
     return val;
 }
 
+struct node* reverse_recursive(struct node* cur){
+    if(!cur)
+        return NULL;
+
+    struct node* node = reverse_recursive(cur->next);
+
+    if(!node){
+        head = cur;
+        return cur;
+    }
+
+    node->next = cur;
+    
+    cur->next = NULL;
+    return cur;
+}
+
+struct node* merge(struct node* head1, struct node * head2){
+    // if(!head1)
+    //     return head2;
+    
+    // if(!head2)
+    //     return head1;
+
+    // struct node* l1 = head1, *l2 = head2, *new_head = NULL, *p = NULL;
+
+    // if(head1->data < head2->data){
+    //     new_head = head1;
+    //     l1 = l1->next;
+    // }
+    // else{
+    //     new_head = head2;
+    //     l2 = l2->next;
+    // }
+
+    // p = new_head;
+
+    // while (l1 && l2){
+    //     printf("%d\n", p->data);
+    //     printf("l1: %d | l2: %d\n", l1->data, l2->data);
+    //     if(l1->data <= l2->data){
+    //         printf("IF\n");
+    //         p->next = l1;
+    //         l1 = l1->next;
+    //     }
+    //     else{
+    //         printf("ELSE\n");
+    //         p->next = l2;
+    //         l2 = l2->next;
+    //     }
+    //     p = p->next;
+    // }
+
+    // if(l1){
+    //     p->next = l1;
+    // }
+
+    // if(l2){
+    //     p->next = l2;
+    // }
+
+    // return new_head;
+
+    struct node* l1 = head1, *l2 = head2;
+    struct node dummy;
+    struct node* p = &dummy;
+
+    while(l1 && l2){
+        if(l1->data < l2->data){
+            p->next = l1;
+            l1 = l1->next;
+        }
+        else{
+            p->next = l2;
+            l2 = l2->next;
+        }
+        p = p->next;
+    }
+
+    if(l1)
+        p->next = l1;
+    if(l2)
+        p->next = l2;
+
+    return dummy.next;
+}
+
 int main()
 {
     init();
 
-    head = insert(head);
-    head = insert(head);
-    head = insert(head);
-    head = insert(head);
-    head = insert(head);
-    head = insert(head);
+    // head = insert(head);
+    // head = insert(head);
+    // head = insert(head);
+    // head = insert(head);
+    // head = insert(head);
+    // head = insert(head);
     
     
-    printf("Linked list : ");
-    display(head);
+    // printf("Linked list : ");
+    // display(head);
     
     // head = reverse(head);    
     // printf("Linked list : ");
     // display(head);
 
-    printf("1 : %d\n", get_the_nth_node_from_end(1));
-    printf("2 : %d\n", get_the_nth_node_from_end(2));
-    printf("3 : %d\n", get_the_nth_node_from_end(3));
-    printf("4 : %d\n", get_the_nth_node_from_end(4));
-    printf("5 : %d\n", get_the_nth_node_from_end(5));
+    // printf("1 : %d\n", get_the_nth_node_from_end(1));
+    // printf("2 : %d\n", get_the_nth_node_from_end(2));
+    // printf("3 : %d\n", get_the_nth_node_from_end(3));
+    // printf("4 : %d\n", get_the_nth_node_from_end(4));
+    // printf("5 : %d\n", get_the_nth_node_from_end(5));
 
-    printf("=========================================\n");
+    // printf("=========================================\n");
 
-    printf("Remove 1: %d\n", remove_nth_node_from_the_end(1));
-    display(head);
-    printf("Remove 2: %d\n", remove_nth_node_from_the_end(2));
-    display(head);
-    printf("Remove 4: %d\n", remove_nth_node_from_the_end(4));
-    display(head);
+    // printf("Remove 1: %d\n", remove_nth_node_from_the_end(1));
+    // display(head);
+    // printf("Remove 2: %d\n", remove_nth_node_from_the_end(2));
+    // display(head);
+    // printf("Remove 4: %d\n", remove_nth_node_from_the_end(4));
+    // display(head);
 
+
+    // reverse_recursive(head);
+    // display(head);
+
+
+    struct node *head1 = NULL, *head2 = NULL, *new_head = NULL;
+
+    head1 = insert(head1);
+    head1 = insert(head1);
+    head1 = insert(head1);
+    head1 = insert(head1);
+    head1 = insert(head1);
+    head1 = insert(head1);
     
-    free_all(head);
+    display(head1);
+
+    head2 = insert(head2);
+    head2 = insert(head2);
+    head2 = insert(head2);
+    head2 = insert(head2);
+    head2 = insert(head2);
+    head2 = insert(head2);
+
+    display(head2);
+
+
+    new_head = merge(head1, head2);
+    display(new_head);
+
+    free_all(new_head);
     return 0;
 }
