@@ -603,21 +603,38 @@ struct node* merge_recursive(struct node* head1, struct node* head2){
     return head;
 }
 
+struct node* swap_in_pairs_recr(struct node* head){
+    if(! head || ! head->next)
+        return head;
+    
+    struct node* temp = NULL;
+    temp = head->next;
+    head->next = temp->next;
+    temp->next = head;
+    head = temp;
+    head->next->next = swap_in_pairs_recr(head->next->next);
+    return head;
+}
+
 int main()
 {
     init();
 
-    // head = insert(head);
-    // head = insert(head);
-    // head = insert(head);
-    // head = insert(head);
-    // head = insert(head);
-    // head = insert(head);
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
     
     
-    // printf("Linked list : ");
-    // display(head);
+    printf("Linked list : ");
+    display(head);
     
+    head = swap_in_pairs_recr(head);
+
+    display(head);
+
     // head = reverse(head);    
     // printf("Linked list : ");
     // display(head);
@@ -642,32 +659,32 @@ int main()
     // display(head);
 
 
-    struct node *head1 = NULL, *head2 = NULL, *new_head = NULL;
+    // struct node *head1 = NULL, *head2 = NULL, *new_head = NULL;
 
-    head1 = insert(head1);
-    head1 = insert(head1);
-    head1 = insert(head1);
-    head1 = insert(head1);
-    head1 = insert(head1);
-    head1 = insert(head1);
+    // head1 = insert(head1);
+    // head1 = insert(head1);
+    // head1 = insert(head1);
+    // head1 = insert(head1);
+    // head1 = insert(head1);
+    // head1 = insert(head1);
     
-    display(head1);
+    // display(head1);
 
-    head2 = insert(head2);
-    head2 = insert(head2);
-    head2 = insert(head2);
-    head2 = insert(head2);
-    head2 = insert(head2);
-    head2 = insert(head2);
+    // head2 = insert(head2);
+    // head2 = insert(head2);
+    // head2 = insert(head2);
+    // head2 = insert(head2);
+    // head2 = insert(head2);
+    // head2 = insert(head2);
 
-    display(head2);
+    // display(head2);
 
 
-    new_head = merge_recursive(head1, head2);
-    display(new_head);
+    // new_head = merge_recursive(head1, head2);
+    // display(new_head);
 
-    free_all(new_head);
+    // free_all(new_head);
 
-    // free_all(head);
+    free_all(head);
     return 0;
 }
