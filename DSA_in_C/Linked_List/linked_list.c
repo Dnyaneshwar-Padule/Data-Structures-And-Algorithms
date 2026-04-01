@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<limits.h>
 
 #define NEWNODE (struct node*)malloc(sizeof(struct node))
 
@@ -441,6 +442,28 @@ Node* reverse(Node* head)
     return prev;
 }
 
+int get_the_nth_node_from_end(int n){
+    if(n < 1)
+        return INT_MIN;
+    
+    struct node *p = head;
+    struct node *t = head;
+    
+    for(int i = 1; i <= n && t; i++){
+        t = t->next;
+    }
+
+    while (t){
+        p = p->next;
+        t = t->next;
+    }
+
+    if(p)
+        return p->data;
+    
+    return INT_MIN;
+}
+
 int main()
 {
     init();
@@ -450,15 +473,21 @@ int main()
     head = insert(head);
     head = insert(head);
     head = insert(head);
+    head = insert(head);
     
     
     printf("Linked list : ");
     display(head);
     
-    head = reverse(head);
-    
-    printf("Linked list : ");
-    display(head);
+    // head = reverse(head);    
+    // printf("Linked list : ");
+    // display(head);
+
+    printf("1 : %d\n", get_the_nth_node_from_end(1));
+    printf("2 : %d\n", get_the_nth_node_from_end(2));
+    printf("3 : %d\n", get_the_nth_node_from_end(3));
+    printf("4 : %d\n", get_the_nth_node_from_end(4));
+    printf("5 : %d\n", get_the_nth_node_from_end(5));
     
     free_all(head);
     return 0;
