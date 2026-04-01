@@ -582,6 +582,27 @@ struct node* merge(struct node* head1, struct node * head2){
     return dummy.next;
 }
 
+struct node* merge_recursive(struct node* head1, struct node* head2){
+    if(!head1)
+        return head2;
+    
+    if(! head2)
+        return head1;
+
+    struct node* head = NULL;
+
+    if(head1->data < head2->data){
+        head = head1;
+        head->next = merge_recursive(head1->next, head2);
+    }
+    else{
+        head = head2;
+        head->next = merge_recursive(head1, head2->next);
+    }
+
+    return head;
+}
+
 int main()
 {
     init();
@@ -642,9 +663,11 @@ int main()
     display(head2);
 
 
-    new_head = merge(head1, head2);
+    new_head = merge_recursive(head1, head2);
     display(new_head);
 
     free_all(new_head);
+
+    // free_all(head);
     return 0;
 }
