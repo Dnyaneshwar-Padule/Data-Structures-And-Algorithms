@@ -616,10 +616,72 @@ struct node* swap_in_pairs_recr(struct node* head){
     return head;
 }
 
+struct node* insertion_sort(struct node* head){
+    if(! head || ! head->next)
+        return head;
+
+    struct node* new_head = head;
+    struct node* cur = head->next;
+    new_head->next = NULL;
+
+    while (cur){
+        struct node* itr = new_head;
+        struct node* next = cur->next;
+
+        if(cur->data <= new_head->data){
+            cur->next = new_head;
+            new_head = cur;
+        }
+        else{
+            while (itr->next && itr->next->data < cur->data){
+                itr = itr->next;
+            }
+
+            if(!itr->next)
+                cur->next = NULL;
+
+            cur->next = itr->next;
+            itr->next = cur;
+        }
+        cur = next;
+    }
+
+    return new_head;
+
+}
+
+
+struct node* remove_duplicate_iterative(struct node* head){
+    if(! head || ! head->next){
+        return head;
+    }
+
+    struct node* cur = head;
+    struct node* prev = NULL, *cur2 = head->next;
+
+    while (cur){
+    }
+
+
+
+
+}
+
+
+
+
 int main()
 {
     init();
 
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
+    head = insert(head);
     head = insert(head);
     head = insert(head);
     head = insert(head);
@@ -631,9 +693,16 @@ int main()
     printf("Linked list : ");
     display(head);
     
-    head = swap_in_pairs_recr(head);
+    head = insertion_sort(head);
 
+    printf("Linked list : ");
     display(head);
+    
+
+
+    // head = swap_in_pairs_recr(head);
+
+    // display(head);
 
     // head = reverse(head);    
     // printf("Linked list : ");
