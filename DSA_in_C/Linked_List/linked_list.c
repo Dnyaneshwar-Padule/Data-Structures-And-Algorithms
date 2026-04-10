@@ -660,11 +660,24 @@ struct node* remove_duplicate_iterative(struct node* head){
     struct node* prev = NULL, *cur2 = head->next;
 
     while (cur){
+        prev = cur;
+        cur2 = cur->next;
+
+        while (cur2){
+            if(cur->data == cur2->data){
+                prev->next = cur2->next;
+                cur2 = cur2->next;
+            }
+            else{
+                prev = cur2;
+                cur2 = cur2->next;
+            }
+        }
+
+        cur = cur->next;
     }
 
-
-
-
+    return head;
 }
 
 
@@ -693,7 +706,7 @@ int main()
     printf("Linked list : ");
     display(head);
     
-    head = insertion_sort(head);
+    head = remove_duplicate_iterative(head);
 
     printf("Linked list : ");
     display(head);
