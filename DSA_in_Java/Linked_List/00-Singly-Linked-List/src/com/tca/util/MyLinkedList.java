@@ -1,5 +1,7 @@
 package com.tca.util;
 
+import java.util.HashMap;
+
 public class MyLinkedList<E extends Comparable<E>> {
 
 	private ListNode<E> head;
@@ -165,6 +167,50 @@ public class MyLinkedList<E extends Comparable<E>> {
 		head = null;
 		length = 0;
 	}
-
 	
+	public synchronized void removeDuplicates() {
+		if(head == null || head.getNext() == null)
+			return;
+		
+		HashMap<E, ListNode<E>> map = new HashMap<E, ListNode<E>>();
+		ListNode<E> cur = head; 
+		ListNode<E>	prev = null;
+		
+		///*
+		while(cur != null) {
+			ListNode<E> existingNode = map.get(cur.getData());
+			
+			if(existingNode == null) {
+				map.put(cur.getData(), cur);
+				prev = cur;
+				cur = cur.getNext();
+			}
+			else {
+				length--;
+				prev.setNext(cur.getNext());
+				cur = cur.getNext();
+			}
+		}
+		//*/
+
+		
+		//ListNode<E>	next = null;
+		/*
+		
+		while(cur.getNext() != null) {
+			next = cur.getNext();
+			
+			if(map.get(next.getData()) != null) {
+				cur.setNext(next.getNext());
+				length--;
+			}
+			else {
+				map.put(cur.getData(), cur);
+				cur = cur.getNext();
+			}
+		}
+		
+		*/
+		
+	}
 }
