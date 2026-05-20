@@ -8,7 +8,7 @@ public class App {
 		
 		String expr = "a+b*c-d-(1+2*3)";
 		
-		StackUtil.infixToPostfix(expr);
+		System.out.println( StackUtil.infixToPostfix(expr) );
 		
 	}
 
