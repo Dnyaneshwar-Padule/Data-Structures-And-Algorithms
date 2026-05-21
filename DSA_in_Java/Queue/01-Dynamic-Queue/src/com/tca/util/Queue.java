@@ -37,6 +37,7 @@ public class Queue {
 		// return front == rear;
 	}
 	
+	
 	public void enQueue(int val) {
 		if(size == capacity)
 			expand();
@@ -61,6 +62,7 @@ public class Queue {
 		int length = size();
 		int newQueue[] = new int[length << 1];
 		
+		rear = (rear - 1 + capacity) % capacity;
 		int i,j;
 		for(i = front, j = 0; i != rear; i = (i + 1) % capacity) {
 			newQueue[j] = queue[i];
@@ -77,14 +79,12 @@ public class Queue {
 	private void shrink() {
 		int length = size();
 		
-		if(length << 2 >= capacity)
+		if(length << 2 >= capacity || capacity <= DEFAULT_CAPACITY)
 			return;
 	
 		length = capacity >> 1;
-	
-		
-		int[] newQueue = new int[length]; 
-		
+		int[] newQueue = new int[length]; 	
+		rear = (rear - 1 + capacity) % capacity;	
 		int i,j;
 		for(i = front, j = 0; i != rear ; i = (i + 1) % capacity) {
 			newQueue[j] = queue[i]; 
