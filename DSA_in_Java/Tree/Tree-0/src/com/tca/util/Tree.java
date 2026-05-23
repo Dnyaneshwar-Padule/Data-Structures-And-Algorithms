@@ -1,7 +1,9 @@
 package com.tca.util;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 public class Tree <E extends Comparable<E>> {
@@ -72,4 +74,29 @@ public class Tree <E extends Comparable<E>> {
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public ArrayList<ArrayList<E>> levelOrder(){
+	ArrayList<ArrayList<E>> result = new ArrayList<>();
+		if(root == null)
+				return result;
+		Queue<TreeNode<E>> q = new LinkedList<>();
+		q.offer(root);
+		
+		while( ! q.isEmpty()) {
+			int size = q.size();
+			ArrayList<E> level = new ArrayList<E>();
+
+			for(int i = 0; i < size; ++i) {
+				TreeNode<E> cur = q.poll();
+				level.add(cur.getData());
+				
+				if(cur.getLeft() != null)
+					q.offer(cur.getLeft());
+				if(cur.getRight() != null)
+					q.offer(cur.getRight());
+			}
+			result.add(level);
+		}
+		return result;
+	}
 }

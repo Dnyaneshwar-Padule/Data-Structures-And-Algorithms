@@ -43,7 +43,7 @@ public class Queue <T> {
 	public void enQueue(T data) {
 		Node<T> newNode = new Node<>(data);
 	
-		if(tail == null) {
+		if(head == null) {
 			head = tail = newNode;
 		}
 		else {
