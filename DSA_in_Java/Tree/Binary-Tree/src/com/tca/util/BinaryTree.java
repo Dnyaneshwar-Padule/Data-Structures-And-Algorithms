@@ -134,4 +134,103 @@ public class BinaryTree <E extends Comparable<E>> {
   		return levels;
   	}
 	
+	public boolean isSymmetric(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        ArrayList<Integer> list = new ArrayList<>();
+        
+        q.offer(root);
+        while( ! q.isEmpty() ){
+            int size = q.size();
+
+            for(int i = 0; i < size; ++i){
+                TreeNode node = q.poll();
+
+               
+                list.add((Integer)node.data);
+
+                if(node.left != null ){
+                    q.offer(node.left);
+                }
+                else{
+                    list.add(Integer.MIN_VALUE);
+                }
+
+
+                if(node.right != null ){
+                    q.offer(node.right);
+                }
+                else{
+                    list.add(Integer.MIN_VALUE);
+                }
+
+            }
+
+            if( ! isPalindrome(list) ) {
+            	System.out.println("False");
+            	return false;
+            }
+            else {
+            	System.out.println("True");
+            }
+
+            list.clear(); 
+        }
+
+        return true;
+    }
+
+    private boolean isPalindrome(ArrayList<Integer> list){
+        int i = 0, j = list.size() - 1;
+
+        while(i < j){
+            if(list.get(i++).compareTo( list.get(j--)) != 0)
+                return false;
+        }
+
+        return true;
+    }
+    
+    public void delete(E data) {
+    	if(root == null)
+    		return ;
+    	
+    	TreeNode nodeToDelete = null;
+    	TreeNode deepestNode = null;
+    	TreeNode deepestNodeParent = null;
+    	
+    	Queue<TreeNode> q = new LinkedList<>();
+    	q.offer(root);
+ 
+    	while(! q.isEmpty() ) {
+    		deepestNode = q.poll();
+    		
+    		if(deepestNode.data == null && data == null)
+    			nodeToDelete = deepestNode;
+    		else if(deepestNode.data != null && deepestNode.data.compareTo(data) == 0) {
+    			nodeToDelete = deepestNode;
+    		}
+    		
+    		if(deepestNode.left != null) {
+    			deepestNodeParent = deepestNode;
+    			q.offer(deepestNode.left);
+    		}
+    		
+    		if(deepestNode.right != null) {
+    			deepestNodeParent = deepestNode;
+    			q.offer(deepestNode.right);
+    		}
+    	}
+    	
+    	nodeToDelete.data = deepestNode.data;
+    	
+    	if(deepestNodeParent == null)
+    		root = null;
+    	else {
+    		if(deepestNodeParent.right == deepestNode)
+    			deepestNodeParent.right = null;
+    		else if(deepestNodeParent.left == deepestNode)
+    			deepestNodeParent.left = null;
+    	}
+    }
+	
 }

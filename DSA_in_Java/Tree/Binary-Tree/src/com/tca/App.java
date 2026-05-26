@@ -36,8 +36,37 @@ public class App {
 		}
 		System.out.println();
 		
+	
+		t1.delete(4);
 		
+		for(ArrayList<Integer> level : t1.levelOrder()) {
+			for(Integer num : level)
+				System.out.print(num + " ");
+			System.out.println();
+		}
+		System.out.println();
+		
+		t1.delete(3);
+		
+		
+		for(ArrayList<Integer> level : t1.levelOrder()) {
+			for(Integer num : level)
+				System.out.print(num + " ");
+			System.out.println();
+		}
+		System.out.println();
 		
 	}
+	
+	  private static boolean isPalindrome(ArrayList<Integer> list){
+	        int i = 0, j = list.size() - 1;
+
+	        while(i < j){
+	            if(list.get(i++) != list.get(j--))
+	                return false;
+	        }
+
+	        return true;
+	    }
 
 }
