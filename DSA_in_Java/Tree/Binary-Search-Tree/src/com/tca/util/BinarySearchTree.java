@@ -251,5 +251,142 @@ public class BinarySearchTree<E extends Comparable<E>> {
   		return (cur == null) ? null : cur.data;
   	}
   	
+  	public E preorderSuccessorOf(E key) {
+  		TreeNode cur;
+  		E suc = null;
+  		Stack<TreeNode> s = new Stack<>();
+  		s.push(root);
+  		
+  		while(! s.isEmpty()) {
+  			cur = s.pop();
+  			
+  			if(cur.data.compareTo(key) == 0) {
+  				if(cur.left != null) {
+  					suc = cur.left.data;  					
+  				}
+  				else if(cur.right != null) {
+  					suc = cur.right.data;
+  				}
+  				else {
+  					if(! s.isEmpty() ) {
+  						suc = s.pop().data;
+  					}
+  				}
+  				
+  				break;
+  			}
+  			
+  			if(cur.right != null)
+  				s.push(cur.right);
+  			if(cur.left != null)
+  				s.push(cur.left);
+  		}
+  		
+  		return suc;
+  	}
+  	
+  	public E preorderPredessorOf(E key) {
+  		TreeNode cur = null, previous = null;
+  		E pre = null;
+  		Stack<TreeNode> s = new Stack<>();
+  		s.push(root);
+  		
+  		while(! s.isEmpty()) {
+  			cur = s.pop();
+  			
+  			if(cur.data.compareTo(key) == 0) {
+  				if(previous != null)
+  						pre = previous.data;
+  				break;
+  			}
+  			
+  			if(cur.right != null)
+  				s.push(cur.right);
+  			if(cur.left != null)
+  				s.push(cur.left);
+  			
+  			previous = cur;
+  		}
+  		
+  		return pre;
+  	}
+  	
+  	public E inorderSuccessorOf(E key) {
+  		TreeNode cur = root;
+  		E suc = null;
+  		Stack<TreeNode> s = new Stack<>();
+  		boolean done = false;
+  		
+  		while(!done) {
+  			if(cur != null) {
+  				if(cur.data.compareTo(key) == 0) {
+  					TreeNode temp = null;
+  					if(!s.isEmpty()) {
+  						suc = s.pop().data;
+  					}
+  					else {
+  						temp = cur.right;
+  						while(temp != null && temp.left != null)
+							temp = temp.left;
+						
+						if(temp != null)
+							suc = temp.data;
+  					}
+  						
+  					break;
+  				}
+  				s.push(cur); 				
+  				cur = cur.left;
+  			}
+  			else {
+  				if(s.isEmpty()) 
+  					done = true;
+  				else {
+  					cur = s.pop().right;
+  				}
+  			}
+  		}
+  		
+  		return suc;
+  	}
+  	
+  	public E inorderPredecessorOf(E key) {
+  		E pre = null;
+  		TreeNode cur = root, previous = null;
+  		Stack<TreeNode> s = new Stack<>();
+  		boolean done = false;
+  		
+  		while(! done) {
+  			if(cur != null) {
+  				if(cur.data.compareTo(key) == 0) {
+  					TreeNode temp = cur.left;
+  					
+  					while(temp != null && temp.right != null)
+  							temp = temp.right;
+  					
+  					if(temp != null)
+  						pre = temp.data;
+  					else if(previous != null)
+  						pre = previous.data;
+  					break;
+  				}
+  				
+//  				previous = cur;
+  				s.push(cur);
+  				cur = cur.left;
+  			}
+  			else {
+  				if(s.isEmpty())
+  					done = true;
+  				else {
+  					previous = s.pop();
+  					cur = previous.right;
+  				}
+  			}
+  		}
+  		
+  		return pre;
+  	}
+  	
 }
 

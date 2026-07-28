@@ -2,6 +2,7 @@ package com.tca.util;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class BinaryTree <E extends Comparable<E>> {
@@ -22,8 +23,10 @@ public class BinaryTree <E extends Comparable<E>> {
 		}
 	}
 	
-	TreeNode root;
-	int size;
+	private TreeNode root;
+	private int size;
+	private List<TreeNode> path;
+	
 	
 	public int size() {
 		return size;
@@ -232,5 +235,59 @@ public class BinaryTree <E extends Comparable<E>> {
     			deepestNodeParent.left = null;
     	}
     }
-	
+    
+    public boolean areStructurallySimilar(BinaryTree<E> tree) {
+    	return areStructurallySimilar(root, tree.root);
+    } 
+
+    private boolean areStructurallySimilar(TreeNode root1, TreeNode root2) {
+    	if(root1 == null && root2 == null)
+    		return true;
+    	if(root1 == null || root2 == null)
+    		return false;
+    	
+    	return areStructurallySimilar(root1.left, root2.left) && 
+    			areStructurallySimilar(root1.right, root2.right);
+    
+    }
+    
+    public int width(int depth) {
+    	return width(root, depth);
+    }
+    
+    private int width(TreeNode root, int depth) {
+    	if(root == null)
+    		return 0;
+    	else
+    		if(depth == 0)
+    			return 1;
+    		else
+    			return width(root.left, depth - 1 ) + width(root.right, depth - 1);
+    }
+    
+    public void printPathToLeafNodes() {
+    	path = new ArrayList<>();
+    	printPathToLeafNodes(root);
+    }
+    
+    private void printPathToLeafNodes(TreeNode node) {
+    	if(node == null)
+    		return;
+    	
+    	path.add(node);
+    	
+    	if(node.left == null && node.right == null)
+    			printPath();
+    	printPathToLeafNodes(node.left);
+    	printPathToLeafNodes(node.right);
+    	path.remove(path.size() - 1);
+    }
+    
+    private void printPath() {
+    	for(TreeNode node : path ) {
+    		System.out.print(node.data + " | ");
+    	}
+    	System.out.println();
+    }
+    
 }
