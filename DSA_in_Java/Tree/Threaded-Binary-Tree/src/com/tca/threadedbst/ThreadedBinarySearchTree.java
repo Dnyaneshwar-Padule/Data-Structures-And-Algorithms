@@ -1,27 +1,44 @@
 package com.tca.threadedbst;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 
-import com.tca.threadedbst.exception.DuplicateDataException;
+import com.tca.threadedbst.context.InsertContext;
 import com.tca.threadedbst.node.ThreadedBSTNode;
+import com.tca.threadedbst.strategy.InorderThreadingStrategy;
+import com.tca.threadedbst.strategy.PreorderThreadingStrategy;
+import com.tca.threadedbst.strategy.ThreadingStrategy;
 
-//                       type uses extends for both class and interface
-public class ThreadedBinarySearchTree<E extends Comparable<E>> {
+/*
+                       type uses extends for both class and interface
+*/
+public class ThreadedBinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
-	
-	private ThreadedBSTNode<E> root;
+	private final ThreadingStrategy<E> threadingStrategy;
 	private ThreadedBSTNode<E> dummy;
+	private ThreadedBSTNode<E> root;
 	
-	public ThreadedBinarySearchTree() {
+	/*
+		If tag is true it means that the pointer is a thread pointing to predecessor or successor.
+	*/
+	private ThreadedBinarySearchTree(ThreadingStrategy<E> threadingStrategy) {
+		this.threadingStrategy = threadingStrategy;
 		dummy = new ThreadedBSTNode<E>();
-		dummy.setlTag(true);
-		dummy.setrTag(true);
+		dummy.setlTag(false);
+		dummy.setrTag(false);
 		dummy.setRight(dummy);
 		dummy.setLeft(dummy);
+	}
+	
+	public static <E extends Comparable<E>> ThreadedBinarySearchTree<E> createInorderThreadedBinaryTree() {
+		return new ThreadedBinarySearchTree<E>(new InorderThreadingStrategy<E>());
+	}
+	
+	public static <E extends Comparable<E>> ThreadedBinarySearchTree<E> createPreorderThreadedBinaryTree(){
+		return new ThreadedBinarySearchTree<E>(new PreorderThreadingStrategy<E>());
 	}
 	
 	public boolean search(E key) {
@@ -31,9 +48,15 @@ public class ThreadedBinarySearchTree<E extends Comparable<E>> {
 			if(cur.getData().compareTo(key) == 0)
 				return true;
 			else if(cur.getData().compareTo(key) < 0)
-				cur = cur.getRight();
+				if(! cur.isrTag())
+					cur = cur.getRight();
+				else
+					cur = null;
 			else
-				cur = cur.getLeft();
+				if(! cur.islTag())
+					cur = cur.getLeft();
+				else
+					cur = null;
 		}
 		
 		return false;
@@ -49,7 +72,7 @@ public class ThreadedBinarySearchTree<E extends Comparable<E>> {
 		if(root == null) {
 			root = newNode;
 			
-			// attach root threads to dummy
+			// attach root's thread to dummy
 			root.setlTag(true);
 			root.setLeft(dummy);
 			
@@ -58,109 +81,55 @@ public class ThreadedBinarySearchTree<E extends Comparable<E>> {
 				
 			//attach root to dummy
 			dummy.setLeft(root);
-			dummy.setrTag(false); // left is no more a thread....
+			//dummy.setlTag(false); // left is no more a thread....
 		}
 		else {
-			// insert the new node...
+			/*
+			 	insert the new node...
+				There are no null pointers in Threaded Binary Tree (in leaf nodes)
+				So we should take care of it...
+			*/
 			cur = root;
 			while(cur != null) {
 				previous = cur;
 				if(cur.getData().compareTo(data) == 0)
 					return;
-				else if (cur.getData().compareTo(data) > 0)
-					cur = cur.getLeft();
-				else
-					cur = cur.getRight();
-			}
-//
-//			if(previous.getData().compareTo(data) > 0)
-//				previous.setLeft(newNode);
-//			else 
-//				previous.setRight(newNode);
-			
-		}
-	}
-	
-	public List<E> inorder(){
-		Stack<ThreadedBSTNode<E>> s = new Stack<>();
-		ThreadedBSTNode<E> cur = root;
-		boolean done = false;
-		List<E> list = new ArrayList<E>();
-		
-		if(root == null)
-  			return list;
-		
-		while(!done) {
-			if(cur != null) {
-				s.push(cur);
-				cur = cur.getLeft();
-			}
-			else {
-				if(s.isEmpty())	
-					done = true;
+				else if (cur.getData().compareTo(data) > 0) {
+					if( ! cur.islTag())
+						cur = cur.getLeft();					
+					else
+						cur = null;
+				}
 				else {
-					cur = s.pop();
-					list.add(cur.getData());
-					cur = cur.getRight();
+					if(! cur.isrTag())
+						cur = cur.getRight();
+					else
+						cur = null;
 				}
 			}
-		}
-		return list;
-	}
-	
-	public List<E> preorder(){
-		Stack<ThreadedBSTNode<E>> s = new Stack<>();
-		ThreadedBSTNode<E> cur;
-		List<E> list = new ArrayList<E>();
-		
-		if(root == null)
-  			return list;
-		
-		s.push(root);
-		
-		while(! s.isEmpty()) {
-			cur = s.pop();
-			list.add(cur.getData());
-			
-			if(cur.getRight() != null)
-				s.push(cur.getRight());
-			if(cur.getLeft() != null)
-				s.push(cur.getLeft());
-		}
-		
-		return list;
-	}
-	
-	public List<E> postorder(){
-		Stack<ThreadedBSTNode<E>> s = new Stack<>();
-		List<E> list = new ArrayList<E>();
-		ThreadedBSTNode<E>previous = null;	
 
-		if(root == null)
-  			return list;
-		
-		s.add(root);
-		
-		while(! s.isEmpty()) {
-			ThreadedBSTNode<E> node = s.peek();
 			
-			if(previous == null || previous.getLeft() == node || previous.getRight() == node) {
-				if(node.getLeft() != null)
-					s.push(node.getLeft());
-				else if(node.getRight() != null)
-					s.push(node.getRight());
+			
+			boolean isLeftChild = false;
+			
+			if(previous.getData().compareTo(data) > 0) {				
+				isLeftChild = true;
 			}
-			else if(node.getLeft() == previous) {
-				if(node.getRight() != null)
-					s.push(node.getRight());
-			}
-			else {
-				list.add(s.pop().getData());
-			}
-			previous = node;
+			
+			threadingStrategy.afterInsert(
+						new InsertContext<E>(
+									previous,
+									newNode,
+									isLeftChild
+								)
+					);
 		}
+	}
 		
-		return list;
+	
+
+	public List<E> traverse(){
+		return threadingStrategy.traverse(dummy);
 	}
 	
 	public ArrayList<ArrayList<E>> levelOrder(){
@@ -180,9 +149,9 @@ public class ThreadedBinarySearchTree<E extends Comparable<E>> {
   			if(node != null) {
   				cur.add(node.getData());
 
-  				if(node.getLeft()!= null)
+  				if(! node.islTag())
   					q.offer(node.getLeft());
-  				if(node.getRight() != null)
+  				if( ! node.isrTag())
   					q.offer(node.getRight());
   			}
   			else {
@@ -197,5 +166,10 @@ public class ThreadedBinarySearchTree<E extends Comparable<E>> {
   		
   		return levels;
   	}
+
+	@Override
+	public Iterator<E> iterator() {
+		return threadingStrategy.iterator(dummy);
+	}
 	
 }
