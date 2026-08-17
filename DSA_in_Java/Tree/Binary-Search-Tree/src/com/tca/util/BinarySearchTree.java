@@ -388,5 +388,31 @@ public class BinarySearchTree<E extends Comparable<E>> {
   		return pre;
   	}
   	
+  	public E successorOf(E data) {
+  		if(root ==  null)
+  			return null;
+  		
+  		Stack<TreeNode> s = new Stack<>();
+  		s.push(root);
+  		
+  		while(! s.isEmpty()) {
+  			TreeNode cur = s.pop();
+  						
+  			if(cur.right != null)
+  				s.push(cur.right);
+  			if(cur.left != null)
+  				s.push(cur.left);
+  			
+  			if(cur.data.compareTo(data) == 0)
+  				break;
+  		}
+  		
+  		if(s.isEmpty())
+  			return null;
+  		else
+  			return s.peek().data;
+  	}
+  	
+  	
 }
 

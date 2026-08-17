@@ -44,32 +44,32 @@ public class App {
 		
 		
 		for(Integer num : bst.inorder()) {
-			System.out.print(num + " ");
+			System.out.println(num + " -- > " + bst.successorOf(num));
 		}
 		System.out.println();
-
-		System.out.println("1-->" + bst.inorderSuccessorOf(1));
-		System.out.println("2-->" + bst.inorderSuccessorOf(2));
-		System.out.println("8-->" + bst.inorderSuccessorOf(8));
-		System.out.println("9-->" + bst.inorderSuccessorOf(9));
-		System.out.println("10-->" + bst.inorderSuccessorOf(10));
-		System.out.println("15-->" + bst.inorderSuccessorOf(15));
-		System.out.println("18-->" + bst.inorderSuccessorOf(18));
-		System.out.println("24-->" + bst.inorderSuccessorOf(24));
-		System.out.println("28-->" + bst.inorderSuccessorOf(28));
-		System.out.println("30-->" + bst.inorderSuccessorOf(30));
-		
-		System.out.println("1--" + bst.inorderPredecessorOf(1));
-		System.out.println("2--" + bst.inorderPredecessorOf(2));
-		System.out.println("8--" + bst.inorderPredecessorOf(8));
-		System.out.println("9--" + bst.inorderPredecessorOf(9));
-		System.out.println("10--" + bst.inorderPredecessorOf(10));
-		System.out.println("15--" + bst.inorderPredecessorOf(15));
-		System.out.println("18--" + bst.inorderPredecessorOf(18));
-		System.out.println("24--" + bst.inorderPredecessorOf(24));
-		System.out.println("28--" + bst.inorderPredecessorOf(28));
-		System.out.println("30--" + bst.inorderPredecessorOf(30));
-		
+//
+//		System.out.println("1-->" + bst.inorderSuccessorOf(1));
+//		System.out.println("2-->" + bst.inorderSuccessorOf(2));
+//		System.out.println("8-->" + bst.inorderSuccessorOf(8));
+//		System.out.println("9-->" + bst.inorderSuccessorOf(9));
+//		System.out.println("10-->" + bst.inorderSuccessorOf(10));
+//		System.out.println("15-->" + bst.inorderSuccessorOf(15));
+//		System.out.println("18-->" + bst.inorderSuccessorOf(18));
+//		System.out.println("24-->" + bst.inorderSuccessorOf(24));
+//		System.out.println("28-->" + bst.inorderSuccessorOf(28));
+//		System.out.println("30-->" + bst.inorderSuccessorOf(30));
+//		
+//		System.out.println("1--" + bst.inorderPredecessorOf(1));
+//		System.out.println("2--" + bst.inorderPredecessorOf(2));
+//		System.out.println("8--" + bst.inorderPredecessorOf(8));
+//		System.out.println("9--" + bst.inorderPredecessorOf(9));
+//		System.out.println("10--" + bst.inorderPredecessorOf(10));
+//		System.out.println("15--" + bst.inorderPredecessorOf(15));
+//		System.out.println("18--" + bst.inorderPredecessorOf(18));
+//		System.out.println("24--" + bst.inorderPredecessorOf(24));
+//		System.out.println("28--" + bst.inorderPredecessorOf(28));
+//		System.out.println("30--" + bst.inorderPredecessorOf(30));
+//		
 //		for(Integer num : bst.postorder()) {
 //			System.out.print(num + " ");
 //		}
@@ -91,6 +91,8 @@ public class App {
 //		
 //		System.out.println("Max : " + bst.getMaxElement());
 //		System.out.println("Min : " + bst.getMinElement());
+		
+		
 		
 	}
 
