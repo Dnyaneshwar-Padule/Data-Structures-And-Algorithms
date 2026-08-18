@@ -412,7 +412,48 @@ public class BinarySearchTree<E extends Comparable<E>> {
   		else
   			return s.peek().data;
   	}
+  
   	
+  	private TreeNode findMax(TreeNode root) {
+  		if(root == null)
+  			return null;
+  		if(root.right == null)
+  			return root;
+  		return findMax(root.right);
+  	}
+  	
+  	
+  	public void delete(E data) {
+  		delete(root, data);
+  	}
+  	
+  	private TreeNode delete(TreeNode root, E data) {
+  		if(root == null)
+  			return null;
+  		
+  		if(data.compareTo(root.data) < 0)
+  			root.left = delete(root.left, data);
+  		else if(data.compareTo(root.data) > 0)
+  			root.right = delete(root.right, data);
+  		else {
+  			if(root.left != null && root.right != null) {
+  				TreeNode temp = findMax(root.left);
+  				root.data = temp.data;
+  				
+  				// Since we have copied data from largest node in left subtree
+  				// then remove that duplicate data
+  				root.left = delete(root.left, root.data);
+  			}
+  			else {
+  				if(root.left != null)
+  					root = root.left;
+  				else
+  					root = root.right;
+  			}
+  		}
+  		
+  		return root;
+  	}
   	
 }
 

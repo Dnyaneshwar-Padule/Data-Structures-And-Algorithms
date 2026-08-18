@@ -20,10 +20,13 @@ public class App {
 		bst.insert(30);
 		bst.insert(1);
 		
-//		for(Integer num : bst.preorder()) {
+		
+//		for(Integer num : bst.inorder()) {
 //			System.out.print(num + " ");
 //		}
 //		System.out.println();
+//		
+		
 //		
 //		System.out.println("10->" + bst.preorderSuccessorOf(10));
 //		System.out.println("8->" + bst.preorderSuccessorOf(8));
@@ -43,11 +46,11 @@ public class App {
 //		
 		
 		
-		for(Integer num : bst.inorder()) {
-			System.out.println(num + " -- > " + bst.successorOf(num));
-		}
-		System.out.println();
-//
+//		for(Integer num : bst.inorder()) {
+//			System.out.println(num + " -- > " + bst.successorOf(num));
+//		}
+//		System.out.println();
+////
 //		System.out.println("1-->" + bst.inorderSuccessorOf(1));
 //		System.out.println("2-->" + bst.inorderSuccessorOf(2));
 //		System.out.println("8-->" + bst.inorderSuccessorOf(8));
@@ -76,12 +79,40 @@ public class App {
 //		System.out.println();
 //		
 //		
-//		for(ArrayList<Integer> level : bst.levelOrder()) {
-//			for(Integer num : level)
-//				System.out.print(num + " ");
-//			System.out.println();
-//		}
-//		System.out.println();
+		
+		for(ArrayList<Integer> level : bst.levelOrder()) {
+			for(Integer num : level)
+				System.out.print(num + " ");
+			System.out.println();
+		}
+		System.out.println();
+
+
+		bst.delete(8);
+		for(ArrayList<Integer> level : bst.levelOrder()) {
+			for(Integer num : level)
+				System.out.print(num + " ");
+			System.out.println();
+		}
+		System.out.println();
+
+		
+		bst.delete(18);
+		for(ArrayList<Integer> level : bst.levelOrder()) {
+			for(Integer num : level)
+				System.out.print(num + " ");
+			System.out.println();
+		}
+		System.out.println();
+	
+		bst.delete(28);
+		for(ArrayList<Integer> level : bst.levelOrder()) {
+			for(Integer num : level)
+				System.out.print(num + " ");
+			System.out.println();
+		}
+		System.out.println();
+
 //		
 //		System.out.println("Search 15: " + bst.search(15) + " Level of 15: " + bst.levelOf(15));
 //		System.out.println("Search 10: " + bst.search(10) + " Level of 10: " + bst.levelOf(10));
