@@ -33,6 +33,65 @@ public class App {
 			System.out.println();
 		}
 		
+		avlBst.delete(5);
+		System.out.println("Del 5");
+		for(int val : avlBst.inorder()) {
+			System.out.print(val + " - ");
+		}
+		System.out.println();
+		
+		
+		for(List<Integer> level : avlBst.levelOrder()) {
+			for(int val : level) {
+				System.out.print(val + " - ");
+			}
+			System.out.println();
+		}
+		
+		avlBst.delete(1);
+		System.out.println("Del 1");
+		for(int val : avlBst.inorder()) {
+			System.out.print(val + " - ");
+		}
+		System.out.println();
+		
+		
+		for(List<Integer> level : avlBst.levelOrder()) {
+			for(int val : level) {
+				System.out.print(val + " - ");
+			}
+			System.out.println();
+		}
+		
+		avlBst.delete(7);
+		System.out.println("Del 7");
+		for(int val : avlBst.inorder()) {
+			System.out.print(val + " - ");
+		}
+		System.out.println();
+		
+		
+		for(List<Integer> level : avlBst.levelOrder()) {
+			for(int val : level) {
+				System.out.print(val + " - ");
+			}
+			System.out.println();
+		}
+		
+		avlBst.delete(4);
+		System.out.println("Del 4");
+		for(int val : avlBst.inorder()) {
+			System.out.print(val + " - ");
+		}
+		System.out.println();
+		
+		
+		for(List<Integer> level : avlBst.levelOrder()) {
+			for(int val : level) {
+				System.out.print(val + " - ");
+			}
+			System.out.println();
+		}
 	}
 
 }

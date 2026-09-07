@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+
 public class AVLTree<E extends Comparable<E>> {
 	
 	@SuppressWarnings("unused")
@@ -75,12 +76,22 @@ public class AVLTree<E extends Comparable<E>> {
 		return singleRotateRight(z);
 	}
 	
+	/**
+	 * Insert a new node in AVL BST.
+	 * @param data
+	 */
 	public void insert(E data) {
 		if(data == null)
 				throw new IllegalArgumentException("Data cannot be null.");
 		root = insert(root, data);
 	}
 	
+	/**
+	 * Helper method for insert(E)
+	 * @param root
+	 * @param data
+	 * @return
+	 */
 	private TreeNode insert(TreeNode root, E data) {
 		if(root == null) {
 			root = new TreeNode(data);
@@ -106,6 +117,79 @@ public class AVLTree<E extends Comparable<E>> {
 		
 		root.height = Math.max(height(root.left), height(root.right)) + 1;
 		return root;
+	}
+	
+	
+	
+	public void delete(E data) {
+		if(data == null)
+			throw new IllegalArgumentException("Data cannot be null.");
+		root =  delete(root, data);
+	}
+	
+	
+	private TreeNode delete(TreeNode root, E data) {
+		if(root == null) {
+			return null;
+		}
+		else if(data.compareTo(root.data) < 0) { // go left
+			root.left =  delete(root.left, data);
+		}
+		else if(data.compareTo(root.data) > 0) { // go right
+			root.right = delete(root.right, data);
+		}
+		else {
+			// found node
+			if(root.left == null && root.right == null)
+				return null;
+			if(root.left == null)
+				return root.right;
+			if(root.right == null)
+				return root.left;
+			
+			TreeNode successor = getMax(root.left);
+			root.data = successor.data;
+			root.left = delete(root.left, successor.data);
+		}
+		
+		root.height = Math.max(height(root.left), height(root.right)) + 1;
+		return rebalance(root);
+	}
+	
+	private TreeNode getMax(TreeNode root) {
+		TreeNode node = root;
+		while(node.right != null)
+			node = node.right;
+		return node;
+	}
+	
+	private int getBalance(TreeNode node) {
+		if(node == null)
+			return 0;
+		return (int)(height(node.left) - height(node.right));
+	}
+	
+	private TreeNode rebalance(TreeNode node) {
+		int balance = getBalance(node);
+		
+		// left heavy
+		if(balance > 1) {
+			if(getBalance(node.left) >= 0) { // LL
+				return singleRotateLeft(node);
+			}
+			else {
+				return doubleRotateWithLeft(node);
+			}
+		}
+		else if(balance < -1) {  // right heavy
+			if(getBalance(node.right) <= 0) {
+				return singleRotateRight(node); // RR
+			}
+			else {
+				return doubleRotateWithRight(node);
+			}
+		}
+		return node;
 	}
 	
 	public List<E> inorder(){
