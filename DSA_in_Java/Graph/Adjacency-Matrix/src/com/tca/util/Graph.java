@@ -2,8 +2,10 @@ package com.tca.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
 
@@ -157,6 +159,29 @@ public class Graph {
 					s.push(v);
 			}
 		}
+		return vertices;
+	}
+	
+	public List<Integer> bfs() {
+		List<Integer> vertices = new ArrayList<>();
+		Queue<Integer> q = new LinkedList<Integer>();
+		boolean visited[] = new boolean[V];
+		q.offer(0);
+		
+		while(! q.isEmpty() ) {
+			int u = q.poll();
+			
+			if(!visited[u]) {
+				vertices.add(u);
+				visited[u] = true;
+			}
+			
+			for(int v = 0; v < V; v++) {
+				if(!visited[v] && adjacencyMatrix[u][v])
+					q.offer(v);
+			}
+		}
+		
 		return vertices;
 	}
 }
