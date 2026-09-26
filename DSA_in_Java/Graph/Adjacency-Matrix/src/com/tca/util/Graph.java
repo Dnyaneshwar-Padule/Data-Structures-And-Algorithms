@@ -1,8 +1,11 @@
 package com.tca.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * Undirected Graph implementation with adjacency matrix
@@ -100,6 +103,8 @@ public class Graph {
 		}
 	}
 	
+	
+	
 	/*
 	 		  0  1  2  3 
 	 		0 1  0  1  0  
@@ -132,4 +137,26 @@ public class Graph {
 		return sb.toString();
 	}
 	
+	
+	public List<Integer> dfs(){
+		List<Integer> vertices = new ArrayList<>();
+		Stack<Integer> s = new Stack<>();
+		boolean[] visited = new boolean[V];
+		s.push(0);
+		
+		while(! s.isEmpty() ) {
+			int u = s.pop();
+			
+			if(!visited[u]) {
+				vertices.add(u);
+				visited[u] = true;
+			}
+			
+			for(int v = 0; v < V; v++) {
+				if(!visited[v] && adjacencyMatrix[u][v])
+					s.push(v);
+			}
+		}
+		return vertices;
+	}
 }

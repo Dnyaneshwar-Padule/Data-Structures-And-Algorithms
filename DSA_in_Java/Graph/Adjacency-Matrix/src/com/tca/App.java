@@ -6,10 +6,10 @@ public class App {
 
 	public static void main(String[] args) {
 			
-		Graph g = new Graph(5,7);
+		Graph g = new Graph(5,4);
 
 		System.out.println(g);
-		
+		System.out.println(g.dfs());
 	}
 	
 }
