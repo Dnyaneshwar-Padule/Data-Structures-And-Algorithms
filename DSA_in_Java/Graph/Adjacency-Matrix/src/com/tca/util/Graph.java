@@ -27,14 +27,15 @@ public class Graph {
 			throw new IllegalArgumentException("Too few edges.");
 		if( E > (V * (V - 1)) / 2 )
 			throw new IllegalArgumentException("Too many edges.");		
+		populateRandomGraph(E);
 	}
 	
-	private void populateRandomGraph() {
+	private void populateRandomGraph(int E) {
 		Random random = new Random();
 		for(int i = 0 ; i < E ; i++) {
 			int u = random.nextInt(V);
 			int v = random.nextInt(V);
-			add(u,v);
+			addEdge(u, v);
 		}
 	}
 	
@@ -43,13 +44,18 @@ public class Graph {
 	 * @param u
 	 * @param v
 	 */
-	public void add(int u, int v) {
+	public void addEdge(int u, int v) {
 		if(u < 0 || u >= V)
 			throw new IllegalArgumentException("Invalid vertex u:" + u);
 		if(V < 0 || v >= V)
 			throw new IllegalArgumentException("Invalid vertex v:" + u);
 		adjacencyMatrix[u][v] = true;
 		adjacencyMatrix[v][u] = true;
+		E++;
+	}
+	
+	public boolean contains(int u, int v) {
+		return adjacencyMatrix[u][v];
 	}
 	
 	/**
@@ -58,13 +64,13 @@ public class Graph {
 	 * @return Iterator<Boolean>
 	 * @throws IllegalArgumentException
 	 */
-	public Iterator<Boolean> iterator(int u){
+	public Iterator<Integer> iterator(int u){
 		if(u < 0 || u >= V)
 				throw new IllegalArgumentException("Invalid vertex u:" + u);
 		return new GIterator(u);
 	}
 	
-	private class GIterator implements Iterator<Boolean>, Iterable<Boolean>{
+	private class GIterator implements Iterator<Integer>, Iterable<Integer>{
 		int u;
 		int v;
 		
@@ -73,27 +79,57 @@ public class Graph {
 		}
 			
 		@Override
-		public Iterator<Boolean> iterator() {
+		public Iterator<Integer> iterator() {
 			return this;
 		}
 
 		@Override
 		public boolean hasNext() {
-			for(int i = v ; i < V; i++) {
-				if(adjacencyMatrix[u][v])
-					continue;
-				return true;
+			while(v < V) {
+				if(adjacencyMatrix[u][v]) return true;
+				v++;
 			}
 			return false;
 		}
 
 		@Override
-		public Boolean next() {
-			if(v >= V)
+		public Integer next() {
+			if(!hasNext())
 				throw new NoSuchElementException();
-			return adjacencyMatrix[u][v++];
+			return v++;
+		}
+	}
+	
+	/*
+	 		  0  1  2  3 
+	 		0 1  0  1  0  
+	 		1 
+	 		2
+	 		3
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		/* header vertices / column */
+		sb.append(" ");
+		for(int i = 0; i < V; i++)
+			sb.append("  " + i);
+		sb.append("\n"); // new line
+		
+		for(int i = 0; i < V; i++) {
+			sb.append(i);  // row start
+			
+			for(int j = 0; j < V; j++) {
+				if(adjacencyMatrix[i][j])
+					sb.append("  " + 1);
+				else
+					sb.append("  " + 0);
+			}
+			sb.append("\n");
 		}
 		
+		return sb.toString();
 	}
 	
 }
