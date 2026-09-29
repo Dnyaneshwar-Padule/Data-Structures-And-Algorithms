@@ -75,10 +75,7 @@ public class DirectedAdjacencyList {
 
     private final int V;
     private int E;
-
     private LinkedList[] adjacencyList;
-
-    // inDegree[v] = number of edges coming into vertex v
     private int[] inDegree;
 
     public DirectedAdjacencyList(int V) {
@@ -197,7 +194,6 @@ public class DirectedAdjacencyList {
     }
 
     public List<Integer> dfs() {
-
         List<Integer> vertices = new ArrayList<>();
 
         if (V == 0)
@@ -258,6 +254,38 @@ public class DirectedAdjacencyList {
         }
 
         return vertices;
+    }
+    
+    
+    public Queue<Integer> topologicalSort(){
+    	Queue<Integer> order = new java.util.LinkedList<>();
+    	Queue<Integer> q = new java.util.LinkedList<Integer>();
+    	int[] indegree = new int[V];
+    	int rank = 0;
+    	
+    	for(int v = 0; v < V; v++) {
+    		indegree[v] = indegreeOf(v);
+    		if(indegree[v] == 0)
+    			q.offer(v);
+    	}
+    	
+    	while(! q.isEmpty()) {
+    		int u = q.poll();
+    		order.offer(u);
+    		rank++;
+    		
+    		for(int v : adjacencyList(u)) {
+    			indegree[v]--;
+    			if(indegree[v] == 0) {
+    				q.offer(v);
+    			}
+    		}
+    	}
+    	
+		if(rank != V)
+			return null;
+    	
+    	return order;
     }
 
     @Override
