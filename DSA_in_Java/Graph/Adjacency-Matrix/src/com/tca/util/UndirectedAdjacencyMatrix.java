@@ -12,20 +12,20 @@ import java.util.Stack;
 /**
  * Undirected Graph implementation with adjacency matrix
  */
-public class Graph {
+public class UndirectedAdjacencyMatrix {
 
 	private final int V;
 	private int E;
 	private boolean[][] adjacencyMatrix;
 	
-	public Graph(int V) {
+	public UndirectedAdjacencyMatrix(int V) {
 		if(V < 1)
 			throw new IllegalArgumentException("Too few vertices.");
 		this.V = V;
 		adjacencyMatrix = new boolean[V][V];
 	}
 	
-	public Graph(int V, int E) {
+	public UndirectedAdjacencyMatrix(int V, int E) {
 		this(V);
 		
 		if( E < V - 1 )
@@ -140,48 +140,47 @@ public class Graph {
 	}
 	
 	
-	public List<Integer> dfs(){
-		List<Integer> vertices = new ArrayList<>();
-		Stack<Integer> s = new Stack<>();
-		boolean[] visited = new boolean[V];
-		s.push(0);
-		
-		while(! s.isEmpty() ) {
-			int u = s.pop();
-			
-			if(!visited[u]) {
-				vertices.add(u);
-				visited[u] = true;
-			}
-			
-			for(int v = 0; v < V; v++) {
-				if(!visited[v] && adjacencyMatrix[u][v])
-					s.push(v);
-			}
-		}
-		return vertices;
+	public List<Integer> dfs() {
+	    List<Integer> vertices = new ArrayList<>();
+	    Stack<Integer> s = new Stack<>();
+	    boolean[] visited = new boolean[V];
+	    s.push(0);
+	    visited[0] = true;
+
+	    while (!s.isEmpty()) {
+	        int u = s.pop();
+	        vertices.add(u);
+
+	        for (int v = 0; v < V; v++) {
+	            if (!visited[v] && adjacencyMatrix[u][v]) {
+	                visited[v] = true;
+	                s.push(v);
+	            }
+	        }
+	    }
+
+	    return vertices;
 	}
 	
 	public List<Integer> bfs() {
-		List<Integer> vertices = new ArrayList<>();
-		Queue<Integer> q = new LinkedList<Integer>();
-		boolean visited[] = new boolean[V];
-		q.offer(0);
-		
-		while(! q.isEmpty() ) {
-			int u = q.poll();
-			
-			if(!visited[u]) {
-				vertices.add(u);
-				visited[u] = true;
-			}
-			
-			for(int v = 0; v < V; v++) {
-				if(!visited[v] && adjacencyMatrix[u][v])
-					q.offer(v);
-			}
-		}
-		
-		return vertices;
+	    List<Integer> vertices = new ArrayList<>();
+	    Queue<Integer> q = new LinkedList<>();
+	    boolean[] visited = new boolean[V];
+	    q.offer(0);
+	    visited[0] = true;
+
+	    while (!q.isEmpty()) {
+	        int u = q.poll();
+	        vertices.add(u);
+
+	        for (int v = 0; v < V; v++) {
+	            if (!visited[v] && adjacencyMatrix[u][v]) {
+	                visited[v] = true;
+	                q.offer(v);
+	            }
+	        }
+	    }
+
+	    return vertices;
 	}
 }
