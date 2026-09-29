@@ -216,5 +216,4 @@ public class DirectedAdjacencyList {
         return sb.toString();
     }
 }
-```
 
