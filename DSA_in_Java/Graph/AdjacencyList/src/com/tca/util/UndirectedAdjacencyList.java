@@ -8,7 +8,7 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
 
-public class AdjacencyList {
+public class UndirectedAdjacencyList {
 
 	private static class LinkedList implements Iterable<Integer>{
 		private static class ListNode{
@@ -78,7 +78,7 @@ public class AdjacencyList {
 	private int E;
 	private LinkedList adjacencyList[];
 	
-	public AdjacencyList(int V) {
+	public UndirectedAdjacencyList(int V) {
 		if(V < 0)
 			throw new IllegalArgumentException("Too few vertices, V:" + V);
 		
@@ -89,7 +89,7 @@ public class AdjacencyList {
 				adjacencyList[i] = new LinkedList();
 	}
 	
-	public AdjacencyList(int V, int E) {
+	public UndirectedAdjacencyList(int V, int E) {
 		this(V);
 		
 		if(E < 0)

@@ -1,12 +1,12 @@
 package com.tca;
 
-import com.tca.util.AdjacencyList;
+import com.tca.util.UndirectedAdjacencyList;
 
 public class App {
 
 	public static void main(String[] args) {
 			
-		AdjacencyList g = new AdjacencyList(7,10);
+		UndirectedAdjacencyList g = new UndirectedAdjacencyList(7,10);
 		
 		System.out.println(g);
 		
