@@ -13,6 +13,7 @@ public class DirectedAdjacencyList {
     private static class LinkedList implements Iterable<Integer> {
 
         private static class ListNode {
+
             int data;
             ListNode next;
 
@@ -74,27 +75,45 @@ public class DirectedAdjacencyList {
 
     private final int V;
     private int E;
+
     private LinkedList[] adjacencyList;
 
+    // inDegree[v] = number of edges coming into vertex v
+    private int[] inDegree;
+
     public DirectedAdjacencyList(int V) {
-        if (V < 0) throw new IllegalArgumentException("Too few vertices, V:" + V);
+
+        if (V < 0)
+            throw new IllegalArgumentException("Too few vertices, V:" + V);
+
         this.V = V;
+
         adjacencyList = new LinkedList[V];
+        inDegree = new int[V];
+
         for (int i = 0; i < V; i++)
             adjacencyList[i] = new LinkedList();
     }
 
     public DirectedAdjacencyList(int V, int E) {
+
         this(V);
-        if (E < 0) throw new IllegalArgumentException("Too few edges, E:" + E);
-        if (E > V * (V - 1)) throw new IllegalArgumentException("Too many edges, E:" + E);
+
+        if (E < 0)
+            throw new IllegalArgumentException("Too few edges, E:" + E);
+
+        if (E > V * (V - 1))
+            throw new IllegalArgumentException("Too many edges, E:" + E);
+
         populateRandomGraph(E);
     }
 
     private void populateRandomGraph(int E) {
+
         Random random = new Random();
 
         while (E != this.E) {
+
             int u = random.nextInt(V);
             int v = random.nextInt(V);
 
@@ -103,19 +122,33 @@ public class DirectedAdjacencyList {
     }
 
     public void add(int u, int v) {
-        if (u < 0 || u >= V || v < 0 || v >= V)
-            throw new IllegalArgumentException("Invalid vertices [u:" + u + ", v:" + v + "]" );
 
-        if (u == v || contains(u, v)) return;
+        if (u < 0 || u >= V || v < 0 || v >= V)
+            throw new IllegalArgumentException(
+                "Invalid vertices [u:" + u + ", v:" + v + "]"
+            );
+
+        if (u == v || contains(u, v))
+            return;
+
         adjacencyList[u].add(v);
+
+        // Edge u -> v
+        // increases the in-degree of v
+        inDegree[v]++;
+
         E++;
     }
 
     public boolean contains(int u, int v) {
+
         if (u < 0 || u >= V || v < 0 || v >= V)
-            throw new IllegalArgumentException("Invalid vertices [u:" + u + ", v:" + v + "]");
+            throw new IllegalArgumentException(
+                "Invalid vertices [u:" + u + ", v:" + v + "]"
+            );
 
         for (int vertex : adjacencyList[u]) {
+
             if (vertex == v)
                 return true;
         }
@@ -123,15 +156,42 @@ public class DirectedAdjacencyList {
         return false;
     }
 
-    public int degreeOf(int v) {
-        if (v < 0 || v >= V) throw new IllegalArgumentException("Invalid vertex v:" + v);
+    public int V() {
+        return V;
+    }
+
+    public int E() {
+        return E;
+    }
+
+    // Out-degree
+    public int outdegreeOf(int v) {
+
+        if (v < 0 || v >= V)
+            throw new IllegalArgumentException(
+                "Invalid vertex v:" + v
+            );
 
         return adjacencyList[v].size();
     }
 
-    public Iterable<Integer> adjacencyList(int v) {
+    // In-degree
+    public int indegreeOf(int v) {
+
         if (v < 0 || v >= V)
-            throw new IllegalArgumentException("Invalid vertex v:" + v);
+            throw new IllegalArgumentException(
+                "Invalid vertex v:" + v
+            );
+
+        return inDegree[v];
+    }
+
+    public Iterable<Integer> adjacencyList(int v) {
+
+        if (v < 0 || v >= V)
+            throw new IllegalArgumentException(
+                "Invalid vertex v:" + v
+            );
 
         return adjacencyList[v];
     }
@@ -158,6 +218,7 @@ public class DirectedAdjacencyList {
             for (Integer v : adjacencyList[vertex]) {
 
                 if (!visited[v]) {
+
                     visited[v] = true;
                     s.push(v);
                 }
@@ -168,6 +229,7 @@ public class DirectedAdjacencyList {
     }
 
     public List<Integer> bfs() {
+
         List<Integer> vertices = new ArrayList<>();
 
         if (V == 0)
@@ -188,6 +250,7 @@ public class DirectedAdjacencyList {
             for (Integer v : adjacencyList[vertex]) {
 
                 if (!visited[v]) {
+
                     visited[v] = true;
                     q.offer(v);
                 }
@@ -216,4 +279,3 @@ public class DirectedAdjacencyList {
         return sb.toString();
     }
 }
-
