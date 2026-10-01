@@ -69,7 +69,7 @@ public class UndirectedAdjacencyMatrix {
 	 * @return Iterator<Boolean>
 	 * @throws IllegalArgumentException
 	 */
-	public Iterator<Integer> iterator(int u){
+	public Iterable<Integer> iterator(int u){
 		if(u < 0 || u >= V)
 				throw new IllegalArgumentException("Invalid vertex u:" + u);
 		return new GIterator(u);
@@ -182,5 +182,35 @@ public class UndirectedAdjacencyMatrix {
 	    }
 
 	    return vertices;
+	}
+	
+	public int[][] shortestPath(int s /*source*/){
+    	if(s < 0 || s >= V)
+    		return null;
+    	int path[] = new int[V];
+    	int distance[] = new int[V];
+    	Queue<Integer> q = new java.util.LinkedList<Integer>();
+    	q.offer(s);
+    	
+    	for(int i = 0; i < V; i++) {
+    		distance[i] = -1;
+    	}
+    	
+    	path[s] = -1;
+    	distance[s] = 0;
+    	
+    	while(! q.isEmpty()) {
+    		int v = q.poll();
+    		
+    		for(int w : iterator(v)) {
+    			if(distance[w] == -1) {
+    				distance[w] = distance[v] + 1;
+    				path[w] = v;
+    				q.offer(w);
+    			}
+    		}
+    	}
+    	
+    	return new int[][] {path, distance};
 	}
 }

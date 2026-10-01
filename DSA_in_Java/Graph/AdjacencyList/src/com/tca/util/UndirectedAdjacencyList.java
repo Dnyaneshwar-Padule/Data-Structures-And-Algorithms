@@ -188,6 +188,36 @@ public class UndirectedAdjacencyList {
 		return vertices;
 	}
 	
+	public int[][] shortestPath(int s /*source*/){
+    	if(s < 0 || s >= V)
+    		return null;
+    	int path[] = new int[V];
+    	int distance[] = new int[V];
+    	Queue<Integer> q = new java.util.LinkedList<Integer>();
+    	q.offer(s);
+    	
+    	for(int i = 0; i < V; i++) {
+    		distance[i] = -1;
+    	}
+    	
+    	path[s] = -1;
+    	distance[s] = 0;
+    	
+    	while(! q.isEmpty()) {
+    		int v = q.poll();
+    		
+    		for(int w : adjacencyList[v]) {
+    			if(distance[w] == -1) {
+    				distance[w] = distance[v] + 1;
+    				path[w] = v;
+    				q.offer(w);
+    			}
+    		}
+    	}
+    	
+    	return new int[][] {path, distance};
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
