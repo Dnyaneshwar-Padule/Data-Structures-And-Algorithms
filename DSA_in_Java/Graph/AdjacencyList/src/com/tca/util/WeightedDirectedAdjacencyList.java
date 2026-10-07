@@ -1,9 +1,11 @@
 package com.tca.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
@@ -293,4 +295,88 @@ public class WeightedDirectedAdjacencyList {
     	
     }
     
+    public int[][] improvedDijkstra(int s){  
+    	record DistancePair(int vertex, int distance) {}
+    	
+    	if(s < 0 || s >= V)
+    		throw new IllegalArgumentException("Invalid source vertex s:" + s);
+    	
+    	int[] distance = new int[V];
+    	int[] path = new int[V];
+    	boolean[] reached = new boolean[V];
+    	PriorityQueue<DistancePair> q = new PriorityQueue<DistancePair>((a,b) -> Integer.compare(a.distance, b.distance));
+    	
+    	Arrays.fill(path, -1);
+    	Arrays.fill(distance, Integer.MAX_VALUE);
+    	
+    	distance[0] = 0;
+    	q.offer(new DistancePair(s, 0));
+    	
+    	
+    	while(!q.isEmpty()) {
+    		DistancePair u = q.poll();
+    		
+    		if(u.distance != distance[u.vertex]) {
+    			continue;
+    		}
+    		
+    		
+    		for(Pair v : adjacencyList[u.vertex]) {
+    			if(u.distance + v.weight < distance[v.vertex]) {
+    				path[v.vertex] = u.vertex;
+    				distance[v.vertex] = u.distance + v.weight;
+    				q.offer(new DistancePair(v.vertex, u.distance + v.weight));
+    				
+    			}
+    		}
+    	}
+    	
+    	return new int[][] {path, distance};
+    	
+    }
+    
+    public int[][] bellmanFord(int s){
+        if(s < 0 || s >= V)
+            throw new IllegalArgumentException("Invalid source vertex s:" + s);
+        
+        int[] distance = new int[V];
+        int path[] = new int[V];
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        Arrays.fill(path, -1);
+        
+        distance[s] = 0;
+        
+ 
+        for(int i = 0; i < V - 1; i++) {
+            boolean changed = false;
+            
+            for(int u = 0; u < V; u++) {
+                if (distance[u] == Integer.MAX_VALUE) continue;
+                
+                for(Pair v : adjacencyList[u]) {
+                    if(distance[v.vertex] > (long) distance[u] + v.weight) {
+                        path[v.vertex] = u;
+                        distance[v.vertex] = distance[u] + v.weight;
+                        changed = true;
+                    }
+                }
+            }
+            
+            if(! changed)
+                break;
+        }
+        
+        // Check if there is a negative cycle
+        for(int u = 0; u < V; u++) {
+            if (distance[u] == Integer.MAX_VALUE) continue;
+            
+            for(Pair v : adjacencyList[u]) {
+                if(distance[v.vertex] > (long)distance[u] + v.weight)
+                    return new int[0][0];
+            }
+        }
+        
+        return new int[][] {path, distance};
+    }
+
 }
